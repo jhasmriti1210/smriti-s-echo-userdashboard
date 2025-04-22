@@ -1,36 +1,33 @@
 import React from "react";
 import moment from "moment";
-import { FaFacebookF } from "react-icons/fa";
-import { AiFillYoutube, AiOutlineTwitter } from "react-icons/ai";
-import bg_header from "../assets/headerbg.png";
-import logo from "../assets/logo.png";
-import adver_image from "../assets/sample-add.jpg";
-import Image from "next/legacy/image";
+import { FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import { AiFillYoutube } from "react-icons/ai";
+
 import Header_Category from "./Header_Category";
 
 const Header = () => {
   return (
     <div>
-      <div className="px-5 lg:px-8 flex justify-between items-center bg-green-800 text-[#cccccc]">
+      <div className="px-5 lg:px-8 flex justify-between items-center bg-green-800 text-white">
         <span className="text-[13px] font-medium">
           {moment().format("LLLL")}
         </span>
         <div className="flex gap-x-[1px]">
           <a
             className="w-[37px] h-[35px] flex justify-center items-center bg-[#ffffff2b]"
-            href=""
+            href="https://instagram.com/sjhapoetry"
           >
-            <FaFacebookF />
+            <FaInstagram />
           </a>
           <a
             className="w-[37px] h-[35px] flex justify-center items-center bg-[#ffffff2b]"
-            href=""
+            href="https://www.linkedin.com/in/smriti-jha-a1210s"
           >
-            <AiOutlineTwitter />
+            <FaLinkedinIn />
           </a>
           <a
             className="w-[37px] h-[35px] flex justify-center items-center bg-[#ffffff2b]"
-            href=""
+            href="https://www.youtube.com/@sjhapoetry"
           >
             <AiFillYoutube />
           </a>
@@ -38,13 +35,12 @@ const Header = () => {
       </div>
       <div
         style={{
-          backgroundImage: `url(${bg_header.src})`,
+          backgroundImage: `url(/assets/headerbg.png)`, // Path updated to reflect the 'public/assets' folder
           backgroundSize: "cover",
         }}
       >
         <div className="px-8 py-14">
           <div className="flex justify-center items-center flex-wrap">
-            <div className="md:w-4/12 w-full"></div>
             <div className="md:w-8/12 w-full hidden md:block">
               <div className="w-full flex justify-end mb-[6rem]"></div>
             </div>

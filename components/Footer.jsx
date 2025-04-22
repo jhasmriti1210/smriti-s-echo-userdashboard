@@ -1,10 +1,7 @@
 import React from "react";
-import Image from "next/legacy/image";
-import logo from "../assets/logo.png";
 import Link from "next/link";
-import Category from "./Category";
-import { FaFacebookF } from "react-icons/fa";
-import { AiFillYoutube, AiOutlineTwitter } from "react-icons/ai";
+import { FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import { AiFillYoutube } from "react-icons/ai";
 
 const Footer = () => {
   return (
@@ -20,15 +17,15 @@ const Footer = () => {
           <div className="flex gap-x-[4px]">
             <a
               className="w-[37px] h-[35px] text-white flex justify-center items-center bg-[#ffffff2b]"
-              href="#"
+              href="https://instagram.com/sjhapoetry"
             >
-              <FaFacebookF />
+              <FaInstagram />
             </a>
             <a
               className="w-[37px] text-white h-[35px] flex justify-center items-center bg-[#ffffff2b]"
-              href="#"
+              href="https://www.linkedin.com/in/smriti-jha-a1210s"
             >
-              <AiOutlineTwitter />
+              <FaLinkedinIn />
             </a>
             <a
               className="w-[37px] text-white h-[35px] flex justify-center items-center bg-[#ffffff2b]"

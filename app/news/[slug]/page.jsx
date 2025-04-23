@@ -1,8 +1,8 @@
-import Breadcrumb from "../../../components/BreadCrumb";
+import Breadcrumb from "@/components/BreadCrumb";
 import Footer from "@/components/Footer";
 import React from "react";
-import htmlParser from "react-html-parser";
-import { base_api_url } from "../../../config/Config";
+import parse from "html-react-parser";
+import { base_api_url } from "@/config/Config";
 import RatingSection from "@/components/news/Rating";
 import CommentSection from "@/components/news/Comment";
 
@@ -48,7 +48,7 @@ const Details = async ({ params }) => {
                   <span>{news?.writerName}</span>
                 </div>
                 <div className="text-gray-700 text-justify">
-                  {htmlParser(news?.description)}
+                  {parse(news?.description)}
                 </div>
               </div>
             </div>

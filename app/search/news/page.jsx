@@ -1,5 +1,5 @@
 import React from "react";
-import Breadcrumb from "@/components/Breadcrumb";
+import Breadcrumb from "../../../components/BreadCrumb";
 import Search from "@/components/Search";
 import Footer from "@/components/Footer";
 import SearchNews from "@/components/news/SearchNews";

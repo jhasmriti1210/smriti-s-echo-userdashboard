@@ -1,4 +1,4 @@
-import Breadcrumb from "@/components/Breadcrumb";
+import Breadcrumb from "../../../components/BreadCrumb";
 import Footer from "@/components/Footer";
 import React from "react";
 import htmlParser from "react-html-parser";

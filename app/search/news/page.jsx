@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import Breadcrumb from "../../../components/BreadCrumb";
 import Search from "@/components/Search";
 import Footer from "@/components/Footer";
@@ -17,7 +17,9 @@ const page = () => {
           <div className="flex flex-wrap">
             <div className="w-full xl:w-8/12">
               <div className="w-full pr-0 xl:pr-4">
-                <SearchNews />
+                <Suspense fallback={<div>Loading...</div>}>
+                  <SearchNews />
+                </Suspense>
               </div>
             </div>
             <div className="w-full xl:w-4/12">

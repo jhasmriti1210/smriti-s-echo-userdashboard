@@ -1,4 +1,4 @@
-import Breadcrumb from "@/components/Breadcrumb";
+import Breadcrumb from "@../../../components/BreadCrumb";
 import SimpleDetailsNewsCard from "@/components/news/items/SimpleDetailsNewsCard";
 import React from "react";
 import { base_api_url } from "../../../../config/Config";

@@ -3,28 +3,35 @@ import Image from "next/legacy/image";
 import Link from "next/link";
 
 const SimpleNewsCard = ({ item, type }) => {
+  const slug = item?.slug;
+
+  if (!slug) {
+    console.warn("Missing slug for item:", item);
+    return null;
+  }
+
   return (
     <div className="group">
-      {/* Image container */}
-      <div className="overflow-hidden relative mt-[1rem]">
-        <div
-          className={`relative w-full ${
-            type ? "h-[270px] sm:h-[470px]" : "h-[228px]"
-          } group-hover:scale-[1.05] transition-all duration-700 mt-3`}
-        >
-          <Image
-            layout="fill"
-            objectFit="cover"
-            src={item.image}
-            alt="images"
-          />
+      <Link href={`/news/${slug}`}>
+        <div className="overflow-hidden relative mt-[1rem] cursor-pointer">
+          <div
+            className={`relative w-full ${
+              type ? "h-[270px] sm:h-[470px]" : "h-[228px]"
+            } group-hover:scale-[1.05] transition-all duration-700 mt-3`}
+          >
+            <Image
+              layout="fill"
+              objectFit="cover"
+              src={item.image}
+              alt={item.title || "news image"}
+            />
+          </div>
         </div>
-      </div>
+      </Link>
 
-      {/* Text content below the image */}
       <div className="mt-3 flex flex-col gap-y-1 text-black font-semibold ml-8">
         <Link
-          href={`/news/${item.slug}`}
+          href={`/news/${slug}`}
           className="text-xl hover:text-green-700 transition-colors duration-300"
         >
           {item.title}

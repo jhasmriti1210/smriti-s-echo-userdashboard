@@ -1,41 +1,129 @@
-import React from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation"; // Import router for navigation
 import moment from "moment";
-import { FaInstagram, FaLinkedinIn } from "react-icons/fa";
-import { AiFillYoutube } from "react-icons/ai";
+
+import { UserCircleIcon } from "@heroicons/react/solid";
 
 import Header_Category from "./Header_Category";
 
 const Header = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [userEmail, setUserEmail] = useState(""); // Add state for email
+  const [dropdownOpen, setDropdownOpen] = useState(false); // State for dropdown visibility
+  const router = useRouter();
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+      setIsAuthenticated(true);
+      setUserName(user.name);
+      setUserEmail(user.email); // Assuming user.email is stored in localStorage
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setIsAuthenticated(false);
+    setUserName("");
+    setUserEmail("");
+    setDropdownOpen(false); // Close dropdown on logout
+  };
+
+  // New function to handle protected navigation
+  const handleProtectedRoute = (path) => {
+    if (isAuthenticated) {
+      router.push(path);
+    } else {
+      router.push("/auth");
+    }
+  };
+
+  // Toggle dropdown visibility
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
   return (
     <div>
       <div className="px-5 lg:px-8 flex justify-between items-center bg-green-800 text-white">
         <span className="text-[13px] font-medium">
           {moment().format("LLLL")}
         </span>
-        <div className="flex gap-x-[1px]">
-          <a
-            className="w-[37px] h-[35px] flex justify-center items-center bg-[#ffffff2b]"
-            href="https://instagram.com/sjhapoetry"
+        <div>
+          <button
+            onClick={() => handleProtectedRoute("/submit-poetry")}
+            className="text-white px-4 py-1.5 text-xs md:text-sm font-semibold rounded-full shadow hover:bg-green-700 hover:text-white transition"
           >
-            <FaInstagram />
-          </a>
-          <a
-            className="w-[37px] h-[35px] flex justify-center items-center bg-[#ffffff2b]"
-            href="https://www.linkedin.com/in/smriti-jha-a1210s"
+            Submit Your Poetry
+          </button>
+
+          <button
+            onClick={() => handleProtectedRoute("/dictionary")}
+            className="text-white px-4 py-1.5 text-xs md:text-sm font-semibold rounded-full shadow hover:bg-green-700 hover:text-white transition"
           >
-            <FaLinkedinIn />
-          </a>
-          <a
-            className="w-[37px] h-[35px] flex justify-center items-center bg-[#ffffff2b]"
-            href="https://www.youtube.com/@sjhapoetry"
+            Dictionary
+          </button>
+
+          <button
+            onClick={() => handleProtectedRoute("/smritis-muse")}
+            className="text-white px-4 py-1.5 text-xs md:text-sm font-semibold rounded-full shadow hover:bg-green-700 hover:text-white transition"
           >
-            <AiFillYoutube />
-          </a>
+            Smriti's Muse
+          </button>
+        </div>
+
+        <div className="flex gap-x-2 items-center">
+          {isAuthenticated ? (
+            <>
+              <div className="relative">
+                {/* Profile Icon Button */}
+                <button onClick={toggleDropdown} className=" rounded-full p-2">
+                  {/* Using Heroicons User Circle Icon */}
+                  <UserCircleIcon className="w-8 h-8 text-white" />
+                </button>
+
+                {/* Dropdown Menu */}
+                {dropdownOpen && (
+                  <div className="absolute right-0 mt-2 bg-white shadow-lg rounded-lg py-2 w-56">
+                    <div className="px-4 py-2 text-sm font-semibold">
+                      <span className="text-black font-bold">Name: </span>
+                      <span className="text-gray-500">{userName}</span>
+                    </div>
+
+                    <div className="px-4 py-2 text-sm font-semibold">
+                      <span className="text-black font-bold">Email: </span>
+                      <span className="text-gray-500">{userEmail}</span>
+                    </div>
+
+                    <div className="flex justify-center  mt-2">
+                      <button
+                        onClick={handleLogout}
+                        className=" w-52 text-sm text-white text-center bg-red-600 px-6 py-2  rounded-b-lg border border-transparent hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 transition"
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </>
+          ) : (
+            <a
+              href="/auth"
+              className="text-white px-4 py-1.5 text-xs md:text-sm font-semibold rounded-full shadow hover:bg-green-700 hover:text-white transition"
+            >
+              Login
+            </a>
+          )}
         </div>
       </div>
+
       <div
         style={{
-          backgroundImage: `url(/assets/headerbg.png)`, // Path updated to reflect the 'public/assets' folder
+          backgroundImage: `url(/assets/headerbg.png)`,
           backgroundSize: "cover",
         }}
       >
@@ -47,6 +135,7 @@ const Header = () => {
           </div>
         </div>
       </div>
+
       <Header_Category />
     </div>
   );

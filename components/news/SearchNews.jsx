@@ -26,12 +26,12 @@ const SearchNews = () => {
   }, [value]);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
       {news &&
         news.length > 0 &&
         news.map((item, i) => (
           <SimpleDetailsNewsCard
-            key={item._id || item.slug || i} // Use _id or slug or fallback to index
+            key={item._id || item.slug || i}
             news={item}
             type="details-news"
             height={200}

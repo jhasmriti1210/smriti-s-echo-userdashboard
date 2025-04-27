@@ -5,6 +5,7 @@ import parse from "html-react-parser";
 import { base_api_url } from "@/config/Config";
 import RatingSection from "@/components/news/Rating";
 import CommentSection from "@/components/news/Comment";
+import AudioSection from "@/components/audioSection";
 
 const Details = async ({ params }) => {
   const { slug } = params;
@@ -47,7 +48,9 @@ const Details = async ({ params }) => {
                   <span>{news?.date}/</span>
                   <span>{news?.writerName}</span>
                 </div>
-                <div className="text-gray-700 text-justify">
+                {/* Audio Section */}
+                <AudioSection audio={news?.audio} /> {/* Description */}
+                <div className="text-gray-700 text-center  w-full mt-4">
                   {parse(news?.description)}
                 </div>
               </div>

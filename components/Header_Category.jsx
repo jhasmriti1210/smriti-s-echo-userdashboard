@@ -12,8 +12,9 @@ const Header_Category = () => {
   const router = useRouter();
   const path = usePathname();
   const [state, setState] = useState("");
-
   const [categories, set_categories] = useState([]);
+  const [show, setShow] = useState(false);
+  const [cate_show, set_cate_show] = useState(false);
 
   const get_categories = async () => {
     try {
@@ -29,19 +30,18 @@ const Header_Category = () => {
     get_categories();
   }, []);
 
-  const [show, setShow] = useState(false);
-  const [cate_show, set_cate_show] = useState(false);
-
   const search = (e) => {
     e.preventDefault();
     router.push(`/search/news?value=${state}`);
     setState("");
     setShow(false);
   };
+
   return (
     <div className="w-full">
       <div className="bg-green-800 w-full text-white uppercase font-semibold relative">
         <div className="px-8 flex justify-between items-center relative h-[48px]">
+          {/* Hamburger icon for small screens */}
           <div
             onClick={() => set_cate_show(!cate_show)}
             className={`text-3xl flex lg:hidden font-bold h-full w-[48px] cursor-pointer justify-center items-center ${
@@ -50,6 +50,8 @@ const Header_Category = () => {
           >
             <BsList />
           </div>
+
+          {/* Links for large screens */}
           <div className="flex-wrap hidden lg:flex">
             <Link
               className={`px-6 font-medium py-[13px] ${
@@ -64,7 +66,9 @@ const Header_Category = () => {
                 <Link
                   key={i}
                   className={`px-6 font-medium py-[13px] ${
-                    path === c.category ? "bg-[#00000026]" : ""
+                    path === `/news/category/${c.category}`
+                      ? "bg-[#00000026]"
+                      : ""
                   }`}
                   href={`/news/category/${c.category}`}
                 >
@@ -72,6 +76,8 @@ const Header_Category = () => {
                 </Link>
               ))}
           </div>
+
+          {/* Search icon */}
           <div className="h-full w-[48px]">
             <div
               onClick={() => {
@@ -83,10 +89,12 @@ const Header_Category = () => {
             >
               {show ? <IoClose /> : <AiOutlineSearch />}
             </div>
+
+            {/* Search dropdown */}
             <div
               className={`absolute lg:block transition-all text-slate-700 z-20 shadow-lg lg:right-10 top-[50px] w-full lg:w-[300px] right-0 ${
                 show ? "visible" : "invisible"
-              } `}
+              }`}
             >
               <div className="p-3 bg-white">
                 <form onSubmit={search} className="flex">
@@ -109,6 +117,8 @@ const Header_Category = () => {
           </div>
         </div>
       </div>
+
+      {/* Categories dropdown for small screens */}
       {cate_show && (
         <div className="flex flex-wrap lg:hidden py-2 px-[30px]">
           <Link
@@ -119,15 +129,15 @@ const Header_Category = () => {
           >
             Home
           </Link>
-          {data.map((c, i) => (
+          {categories.map((c, i) => (
             <Link
-              key={c.id}
+              key={i}
               className={`px-4 font-medium py-[5px] ${
-                path === c.name ? "bg-[#00000026]" : ""
+                path === `/news/category/${c.category}` ? "bg-[#00000026]" : ""
               }`}
-              href={"/"}
+              href={`/news/category/${c.category}`}
             >
-              {c.name}
+              {c.category}
             </Link>
           ))}
         </div>

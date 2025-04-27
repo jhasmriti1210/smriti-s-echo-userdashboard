@@ -21,11 +21,11 @@ const CategoryNews = async ({ params }) => {
           <Breadcrumb one="category" two={category} />
         </div>
       </div>
-      <div className="bg-slate-200 w-full">
-        <div className="px-4 md:px-8 w-full py-8">
+      <div className="bg-slate-200 ">
+        <div className="px-4 md:px-8  py-8">
           <div className="flex flex-wrap">
-            <div className="w-full xl:w-8/12">
-              <div className="w-full pr-0 xl:pr-4">
+            <div className="w-full mt-5">
+              <div className="flex w-full flex-col gap-y-[14px] pl-0 lg:pl-2">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-[14px] width={200}">
                   {news &&
                     news.length > 0 &&

@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 import Breadcrumb from "../../../components/BreadCrumb";
-import Search from "@/components/Search";
+
 import Footer from "@/components/Footer";
 import SearchNews from "@/components/news/SearchNews";
 
@@ -9,29 +9,23 @@ const page = () => {
     <div>
       <div className="bg-white shadow-sm py-4">
         <div className="px-4 md:px-8 w-full">
-          <Breadcrumb one="category" two={"search news"} />
+          <Breadcrumb one="category" two={"search poetry"} />
         </div>
       </div>
-      <div className="bg-slate-200 w-full">
-        <div className="px-4 md:px-8 w-full py-8">
+      <div className="bg-slate-200 ">
+        <div className="px-4 md:px-8  py-8">
           <div className="flex flex-wrap">
-            <div className="w-full xl:w-8/12">
-              <div className="w-full pr-0 xl:pr-4">
+            <div className="w-full mt-5">
+              <div className="flex w-full flex-col gap-y-[14px] pl-0 lg:pl-2">
                 <Suspense fallback={<div>Loading...</div>}>
                   <SearchNews />
                 </Suspense>
               </div>
             </div>
-            <div className="w-full xl:w-4/12">
-              <div className="w-full pl-0 xl:pl-4">
-                <div className="flex flex-col gap-y-8">
-                  <Search />
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

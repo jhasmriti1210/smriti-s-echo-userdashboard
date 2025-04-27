@@ -2,6 +2,7 @@ import HeadLines from "@/components/HeadLines";
 import SimpleNewsCard from "@/components/news/items/SimpleNewsCard";
 import Footer from "@/components/Footer";
 import { base_api_url } from "@/config/Config";
+import ScrollToTopButton from "@/components/scroll-top-to-bottom"; // Import the scroll-to-top button
 
 const Home = async () => {
   const news_data = await fetch(`${base_api_url}/api/all/news`, {
@@ -42,6 +43,9 @@ const Home = async () => {
         </div>
         <Footer />
       </main>
+
+      {/* Scroll to top button component */}
+      <ScrollToTopButton />
     </div>
   );
 };

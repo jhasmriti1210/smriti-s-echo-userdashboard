@@ -1,17 +1,47 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { base_api_url } from "../../config/Config";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar as solidStar } from "@fortawesome/free-solid-svg-icons";
 import { faStar as regularStar } from "@fortawesome/free-regular-svg-icons";
+import { useRouter } from "next/navigation";
 
-const RatingSection = ({ newsId, initialRating }) => {
-  const [rating, setRating] = useState(0); // No rating selected initially
-  const [hoveredRating, setHoveredRating] = useState(0); // For hover visual feedback
+const RatingSection = ({ newsId, initialRating, userRating }) => {
+  const [rating, setRating] = useState(0);
+  const [hoveredRating, setHoveredRating] = useState(0);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [hasRated, setHasRated] = useState(false);
+  const router = useRouter();
+
+  // Check if the user is authenticated
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("authToken");
+      if (token) {
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+      }
+
+      if (userRating) {
+        setHasRated(true);
+      }
+    }
+  }, [userRating]);
 
   // Handle rating submission
   const handleRatingSubmit = async () => {
+    if (!isAuthenticated) {
+      alert("Please log in to submit a rating.");
+      return;
+    }
+
+    if (hasRated) {
+      alert("You have already submitted a rating.");
+      return;
+    }
+
     if (rating === 0) {
       alert("Please select a rating before submitting.");
       return;
@@ -23,17 +53,24 @@ const RatingSection = ({ newsId, initialRating }) => {
         body: JSON.stringify({ star: rating }),
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${
+            typeof window !== "undefined"
+              ? localStorage.getItem("authToken")
+              : ""
+          }`, // Safe access
         },
       });
 
       const data = await res.json();
       if (data.message === "Rating added successfully") {
+        setHasRated(true); // Mark that the user has rated
         alert("Thank you for your rating!");
       } else {
         alert("There was an error while submitting your rating.");
       }
     } catch (error) {
       console.error("Error submitting rating:", error);
+      alert("Something went wrong while submitting your rating.");
     }
   };
 
@@ -70,9 +107,9 @@ const RatingSection = ({ newsId, initialRating }) => {
         <button
           onClick={handleRatingSubmit}
           className="mt-2 px-4 py-2 bg-blue-600 text-white rounded-md disabled:opacity-50"
-          disabled={rating === 0}
+          disabled={rating === 0 || hasRated} // Disable the button if already rated or no rating
         >
-          Submit Rating
+          {hasRated ? "Rating Submitted" : "Submit Rating"}
         </button>
 
         <div className="mt-2 text-sm text-gray-600">

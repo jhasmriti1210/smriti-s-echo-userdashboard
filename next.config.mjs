@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
+        domains: ['cdn-icons-png.flaticon.com'],
         remotePatterns: [
             {
                 protocol: 'https',
@@ -12,6 +13,7 @@ const nextConfig = {
                 hostname: 'res.cloudinary.com',
                 pathname: '/**',
             },
+
         ],
     },
 };

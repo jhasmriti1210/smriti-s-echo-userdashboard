@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/legacy/image";
 import Link from "next/link";
 
-const SimpleNewsCard = ({ item, type }) => {
+const SimplePoetryCard = ({ item, type }) => {
   const slug = item?.slug;
 
   if (!slug) {
@@ -12,7 +12,7 @@ const SimpleNewsCard = ({ item, type }) => {
 
   return (
     <div className="group">
-      <Link href={`/news/${slug}`}>
+      <Link href={`/poetry/${slug}`}>
         <div className="overflow-hidden relative mt-[1rem] cursor-pointer">
           <div
             className={`relative w-full ${
@@ -23,7 +23,8 @@ const SimpleNewsCard = ({ item, type }) => {
               layout="fill"
               objectFit="cover"
               src={item.image}
-              alt={item.title || "news image"}
+              alt={item.title || "poetry image"}
+              priority
             />
           </div>
         </div>
@@ -31,7 +32,7 @@ const SimpleNewsCard = ({ item, type }) => {
 
       <div className="mt-3 flex flex-col gap-y-1 text-black font-semibold ml-8">
         <Link
-          href={`/news/${slug}`}
+          href={`/poetry/${slug}`}
           className="text-xl hover:text-green-700 transition-colors duration-300"
         >
           {item.title}
@@ -45,4 +46,4 @@ const SimpleNewsCard = ({ item, type }) => {
   );
 };
 
-export default SimpleNewsCard;
+export default SimplePoetryCard;

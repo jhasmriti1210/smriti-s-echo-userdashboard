@@ -7,7 +7,7 @@ import { faStar as solidStar } from "@fortawesome/free-solid-svg-icons";
 import { faStar as regularStar } from "@fortawesome/free-regular-svg-icons";
 import { useRouter } from "next/navigation";
 
-const RatingSection = ({ newsId, initialRating, userRating }) => {
+const RatingSection = ({ poetryId, initialRating, userRating }) => {
   const [rating, setRating] = useState(0);
   const [hoveredRating, setHoveredRating] = useState(0);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -48,7 +48,7 @@ const RatingSection = ({ newsId, initialRating, userRating }) => {
     }
 
     try {
-      const res = await fetch(`${base_api_url}/api/add-rating/${newsId}`, {
+      const res = await fetch(`${base_api_url}/api/add-rating/${poetryId}`, {
         method: "POST",
         body: JSON.stringify({ star: rating }),
         headers: {

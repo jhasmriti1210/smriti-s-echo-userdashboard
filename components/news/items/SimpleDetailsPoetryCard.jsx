@@ -7,17 +7,16 @@ import { convert } from "html-to-text";
 
 const defaultImage = "/images/placeholder.jpg";
 
-const SimpleDetailsNewsCard = ({ news, type, height }) => {
-  const imageSrc = news?.image?.trim() ? news.image : defaultImage;
-  const slug = news?.slug;
+const SimpleDetailsPoetryCard = ({ poetry, type, height }) => {
+  const imageSrc = poetry?.image?.trim() ? poetry.image : defaultImage;
+  const slug = poetry?.slug;
 
-  if (!slug) return null; // prevent errors if slug is missing
+  if (!slug) return null;
 
   return (
     <div className="bg-white shadow">
       <div className="group relative overflow-hidden">
-        {/* ✅ Wrap image inside Link */}
-        <Link href={`/news/${slug}`}>
+        <Link href={`/poetry/${slug}`}>
           <div
             style={{ height: `${height}px` }}
             className="w-full relative group-hover:scale-[1.1] transition-all duration-[1s] cursor-pointer"
@@ -26,7 +25,8 @@ const SimpleDetailsNewsCard = ({ news, type, height }) => {
               className="object-cover"
               layout="fill"
               src={imageSrc}
-              alt={news?.title || "news image"}
+              alt={poetry?.title || "poetry image"}
+              priority
             />
             <div className="w-full h-full block absolute left-0 top-0 invisible group-hover:visible bg-white cursor-pointer opacity-5 transition-all duration-300"></div>
           </div>
@@ -36,19 +36,19 @@ const SimpleDetailsNewsCard = ({ news, type, height }) => {
       <div className="p-5">
         <Link
           className="text-[15px] font-semibold text-[#333333] hover:text-[#1c411c]"
-          href={`/news/${slug}`}
+          href={`/poetry/${slug}`}
         >
-          {news?.title}
+          {poetry?.title}
         </Link>
 
         <div className="flex gap-x-2 text-xs font-normal text-slate-600 mt-2">
-          <span>{news?.date}</span>
-          <span>{news?.writerName}</span>
+          <span>{poetry?.date}</span>
+          <span>{poetry?.writerName}</span>
         </div>
 
-        {type === "details-news" && (
+        {type === "details-poetry" && (
           <p className="text-sm text-slate-600 pt-3">
-            {convert(news?.description || "", {
+            {convert(poetry?.description || "", {
               wordwrap: false,
             }).slice(0, 200)}
           </p>
@@ -58,4 +58,4 @@ const SimpleDetailsNewsCard = ({ news, type, height }) => {
   );
 };
 
-export default SimpleDetailsNewsCard;
+export default SimpleDetailsPoetryCard;

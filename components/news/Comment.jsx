@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { base_api_url } from "../../config/Config";
 
-const CommentSection = ({ newsId, initialComments }) => {
+const CommentSection = ({ poetryId, initialComments }) => {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState(initialComments);
   const [showAllComments, setShowAllComments] = useState(false);
@@ -27,7 +27,6 @@ const CommentSection = ({ newsId, initialComments }) => {
   useEffect(() => {
     fetchAuthDetails();
 
-    // Optional: also listen for storage changes (for multi-tab login)
     const handleStorageChange = () => {
       fetchAuthDetails();
     };
@@ -40,7 +39,7 @@ const CommentSection = ({ newsId, initialComments }) => {
   }, []);
 
   const handleCommentSubmit = async () => {
-    fetchAuthDetails(); // Always make sure latest info is loaded
+    fetchAuthDetails();
 
     if (!comment.trim()) {
       alert("Please enter your comment.");
@@ -53,7 +52,7 @@ const CommentSection = ({ newsId, initialComments }) => {
     }
 
     try {
-      const res = await fetch(`${base_api_url}/api/add-comment/${newsId}`, {
+      const res = await fetch(`${base_api_url}/api/add-comment/${poetryId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -39,3 +39,34 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+
+
+
+
+
+// const handleGoogleLogin = async () => {
+  //   try {
+  //     // Open the Google login window
+  //     const popup = window.open(
+  //       `${base_api_url}/auth/google`,
+  //       "_blank",
+  //       "width=500,height=600"
+  //     );
+
+  //     const interval = setInterval(() => {
+  //       if (popup.closed) {
+  //         clearInterval(interval);
+  //         // Fetch the token from localStorage or backend after popup closes
+  //         const token = localStorage.getItem("authToken");
+  //         if (token) {
+  //           router.push("/"); // Redirect to the home page
+  //         } else {
+  //           console.error("Google login failed or was canceled.");
+  //         }
+  //       }
+  //     }, 500);
+  //   } catch (error) {
+  //     console.error("Error during Google login: ", error);
+  //   }
+  // };

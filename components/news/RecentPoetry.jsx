@@ -1,15 +1,15 @@
 import React from "react";
 import Title from "../Title";
-import NewsCard from "./items/NewsCard";
+import PoetryCard from "./items/PoetryCard";
 import { base_api_url } from "../../config/Config";
 
-const RecentNews = async () => {
-  const res = await fetch(`${base_api_url}/api/recent/news`, {
+const RecentPoetry = async () => {
+  const res = await fetch(`${base_api_url}/api/recent/poetry`, {
     next: {
       revalidate: 1,
     },
   });
-  const { news } = await res.json();
+  const { poetry } = await res.json();
 
   return (
     <div className="w-full flex flex-col gap-y-[14px] bg-green-100 pt-4">
@@ -17,12 +17,12 @@ const RecentNews = async () => {
         <Title title="Recent Poetries" />
       </div>
       <div className="grid grid-cols-1 gap-y-3">
-        {news &&
-          news.length > 0 &&
-          news.map((item, i) => <NewsCard key={i} item={item} />)}
+        {poetry &&
+          poetry.length > 0 &&
+          poetry.map((item, i) => <PoetryCard key={i} item={item} />)}
       </div>
     </div>
   );
 };
 
-export default RecentNews;
+export default RecentPoetry;

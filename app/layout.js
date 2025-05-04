@@ -9,7 +9,7 @@ export const metadata = {
   title: "Smriti's Echoes",
   description: "All Poetries Written By Smriti Jha",
   icons: {
-    icon: "/logo.png", // ✅ Correct way
+    icon: "logo.png",
   },
 
 };

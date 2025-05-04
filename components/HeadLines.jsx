@@ -3,10 +3,10 @@ import LoadingSpinner from "react-spinners-components";
 import Marquee from "react-fast-marquee";
 import Link from "next/link";
 
-const HeadLines = ({ news }) => {
+const HeadLines = ({ poetry = {} }) => {
   return (
     <div className="bg-green-100 shadow flex flex-wrap">
-      <div className="flex md:w-[170px] w-full  relative ">
+      <div className="flex md:w-[170px] w-full relative">
         <div className="md:pl-8 pl-4 w-full py-2 flex justify-start items-center gap-x-1">
           <span>
             <LoadingSpinner
@@ -21,14 +21,16 @@ const HeadLines = ({ news }) => {
       <div className="flex md:w-[calc(100%-170px)] w-full">
         <div className="flex w-full justify-start items-center">
           <Marquee>
-            {Object.keys(news).length > 0 &&
-              Object.keys(news).map((c) =>
-                news[c].length > 0
-                  ? news[c].map((n) => (
+            {poetry &&
+              typeof poetry === "object" &&
+              Object.keys(poetry).length > 0 &&
+              Object.keys(poetry).map((c) =>
+                Array.isArray(poetry[c]) && poetry[c].length > 0
+                  ? poetry[c].map((n) => (
                       <Link
                         key={n.slug}
                         className="py-3 block font-semibold hover:text-green-600 pr-12 text-sm"
-                        href={`/news/${n.slug}`}
+                        href={`/poetry/${n.slug}`}
                       >
                         {n.title}
                       </Link>

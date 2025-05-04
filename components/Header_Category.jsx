@@ -32,7 +32,7 @@ const Header_Category = () => {
 
   const search = (e) => {
     e.preventDefault();
-    router.push(`/search/news?value=${state}`);
+    router.push(`/search/poetry?value=${state}`);
     setState("");
     setShow(false);
   };
@@ -66,11 +66,11 @@ const Header_Category = () => {
                 <Link
                   key={i}
                   className={`px-6 font-medium py-[13px] ${
-                    path === `/news/category/${c.category}`
+                    path === `/poetry/category/${c.category}`
                       ? "bg-[#00000026]"
                       : ""
                   }`}
-                  href={`/news/category/${c.category}`}
+                  href={`/poetry/category/${c.category}`}
                 >
                   {c.category}
                 </Link>
@@ -133,9 +133,11 @@ const Header_Category = () => {
             <Link
               key={i}
               className={`px-4 font-medium py-[5px] ${
-                path === `/news/category/${c.category}` ? "bg-[#00000026]" : ""
+                path === `/poetry/category/${c.category}`
+                  ? "bg-[#00000026]"
+                  : ""
               }`}
-              href={`/news/category/${c.category}`}
+              href={`/poetry/category/${c.category}`}
             >
               {c.category}
             </Link>

@@ -1,5 +1,5 @@
 {
-  "name": "news_portal_dashboard",
+  "name": "poetry_portal_dashboard",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -28,6 +28,7 @@
     "react-icons": "^5.5.0",
     "react-multi-carousel": "^2.8.6",
     "react-spinners-components": "^2.0.4",
+    "react-toastify": "^11.0.5",
     "wavesurfer.js": "^7.9.4"
   },
   "devDependencies": {

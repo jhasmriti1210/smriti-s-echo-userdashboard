@@ -2,7 +2,7 @@ import React, { Suspense } from "react";
 import Breadcrumb from "../../../components/BreadCrumb";
 
 import Footer from "@/components/Footer";
-import SearchNews from "@/components/news/SearchNews";
+import SearchPoetry from "../../../components/news/SearchPoetry";
 
 const page = () => {
   return (
@@ -18,7 +18,7 @@ const page = () => {
             <div className="w-full mt-5">
               <div className="flex w-full flex-col gap-y-[14px] pl-0 lg:pl-2">
                 <Suspense fallback={<div>Loading...</div>}>
-                  <SearchNews />
+                  <SearchPoetry />
                 </Suspense>
               </div>
             </div>

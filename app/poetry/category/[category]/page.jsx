@@ -1,18 +1,18 @@
-import Breadcrumb from "@../../../components/BreadCrumb";
-import SimpleDetailsNewsCard from "@/components/news/items/SimpleDetailsNewsCard";
+import Breadcrumb from "../../../../components/BreadCrumb";
+import SimpleDetailsPoetryCard from "@/components/news/items/SimpleDetailsPoetryCard";
 import React from "react";
 import { base_api_url } from "../../../../config/Config";
 import Footer from "@/components/Footer";
 
-const CategoryNews = async ({ params }) => {
+const CategoryPoetry = async ({ params }) => {
   const { category } = await params;
 
-  const res = await fetch(`${base_api_url}/api/category/news/${category}`, {
+  const res = await fetch(`${base_api_url}/api/category/poetry/${category}`, {
     next: {
       revalidate: 1,
     },
   });
-  const { news } = await res.json();
+  const { poetry } = await res.json();
 
   return (
     <div>
@@ -27,13 +27,13 @@ const CategoryNews = async ({ params }) => {
             <div className="w-full mt-5">
               <div className="flex w-full flex-col gap-y-[14px] pl-0 lg:pl-2">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-[14px] width={200}">
-                  {news &&
-                    news.length > 0 &&
-                    news.map((item, i) => (
-                      <SimpleDetailsNewsCard
+                  {poetry &&
+                    poetry.length > 0 &&
+                    poetry.map((item, i) => (
+                      <SimpleDetailsPoetryCard
                         key={item.id || i}
-                        news={item}
-                        type="details-news"
+                        poetry={item}
+                        type="details-poetry"
                         height={200}
                       />
                     ))}
@@ -48,4 +48,4 @@ const CategoryNews = async ({ params }) => {
   );
 };
 
-export default CategoryNews;
+export default CategoryPoetry;

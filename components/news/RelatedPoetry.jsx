@@ -1,19 +1,19 @@
 import React from "react";
 import Title from "../Title";
-import SimpleDetailsNewsCard from "./items/SimpleDetailsNewsCard";
+import SimpleDetailsPoetryCard from "./items/SimpleDetailsPoetryCard";
 
-const RelatedNews = ({ news, type }) => {
+const RelatedPoetry = ({ poetry, type }) => {
   return (
     <div className="w-full pb-8 mt-5">
       <div className="flex flex-col w-full gap-y-[14px]">
-        <Title title="Related news" />
+        <Title title="Related poetry" />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-3 sm:gap-3 lg:gap-x-3">
-          {news.length > 0 &&
-            news.map((item, i) => {
+          {poetry.length > 0 &&
+            poetry.map((item, i) => {
               if (i < 4) {
                 return (
-                  <SimpleDetailsNewsCard
-                    news={item}
+                  <SimpleDetailsPoetryCard
+                    poetry={item}
                     type={type}
                     item={item}
                     key={i}
@@ -28,4 +28,4 @@ const RelatedNews = ({ news, type }) => {
   );
 };
 
-export default RelatedNews;
+export default RelatedPoetry;

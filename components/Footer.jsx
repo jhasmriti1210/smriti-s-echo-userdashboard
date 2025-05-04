@@ -177,12 +177,12 @@ const Footer = () => {
             </h2>
             <ul className="text-black mt-2 space-y-2">
               <li>
-                <Link href="#" className="hover:underline">
+                <Link href="/submit-poetry" className="hover:underline">
                   Submit Poetry
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:underline">
+                <Link href="/dictionary" className="hover:underline">
                   Dictionary
                 </Link>
               </li>

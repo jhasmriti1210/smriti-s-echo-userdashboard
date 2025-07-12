@@ -84,13 +84,16 @@ export default function DashboardPage() {
       form.append("profilePicture", formData.profilePicture);
 
     try {
-      const res = await fetch("http://localhost:5000/api/update-profile", {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: form,
-      });
+      const res = await fetch(
+        "https://smriti-s-echo-admin.onrender.com/api/update-profile",
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: form,
+        }
+      );
 
       const data = await res.json();
       if (data.success) {

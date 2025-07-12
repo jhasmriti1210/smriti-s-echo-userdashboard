@@ -1,4 +1,6 @@
 "use client";
+export const dynamic = "force-dynamic";
+
 import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState, Suspense } from "react";
 
@@ -36,7 +38,6 @@ function EmailVerifier() {
   return (
     <div className="p-8 text-center mt-72">
       <h1 className="text-xl font-semibold mb-4">{message}</h1>
-
       {isSuccess && (
         <button
           onClick={() => router.push("/loginstuff/auth")}

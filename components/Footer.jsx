@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import { FaInstagram, FaLinkedinIn, FaTwitter } from "react-icons/fa";
 import { AiFillYoutube } from "react-icons/ai";
 import { base_api_url } from "../config/Config";
 
@@ -10,51 +10,9 @@ const Footer = () => {
   const [status, setStatus] = useState("");
   const [newsletterStatus, setNewsletterStatus] = useState("");
   const [privacyError, setPrivacyError] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [privacyChecked, setPrivacyChecked] = useState(false);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus("Sending...");
-
-    try {
-      const response = await fetch(`${base_api_url}/api/send-query`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setStatus("Your message has been sent successfully!");
-        setFormData({ name: "", email: "", message: "" });
-      } else {
-        setStatus(`Error: ${data.message}`);
-      }
-    } catch (error) {
-      setStatus("Error: Could not send the message.");
-    }
-
-    setTimeout(() => {
-      setStatus("");
-    }, 5000);
-  };
 
   const handleNewsletterSubmit = async (e) => {
     e.preventDefault();
@@ -97,59 +55,77 @@ const Footer = () => {
   return (
     <div className="w-full">
       {/* Newsletter Section */}
-      <div className="bg-green-900">
-        <div className="px-4 md:px-8 py-10 flex flex-col items-center text-center">
-          <h2 className="text-white text-xl font-bold uppercase mb-2">
-            Subscribe to Smriti's Newsletter
-          </h2>
-          <p className="text-gray-100 mb-4 max-w-2xl">
-            Subscribe to Smriti's Newsletter to get all the latest updates!
-          </p>
-          <form
-            onSubmit={handleNewsletterSubmit}
-            className="w-full max-w-2xl flex flex-col sm:flex-row items-center gap-3"
-          >
-            <input
-              type="email"
-              placeholder="Your E-MAIL HERE"
-              className="px-4 py-2 rounded-md outline-none w-full sm:flex-1 text-black bg-white"
-              required
-              value={newsletterEmail}
-              onChange={(e) => setNewsletterEmail(e.target.value)}
-            />
-            <button
-              type="submit"
-              className="bg-sky-500 hover:bg-sky-600 text-white font-semibold px-6 py-2 rounded-md"
-            >
-              SUBSCRIBE
-            </button>
-          </form>
-          <div className="flex items-center mt-4">
-            <input
-              type="checkbox"
-              id="privacy"
-              className="mr-2"
-              onChange={() => setPrivacyChecked(!privacyChecked)}
-              checked={privacyChecked}
-            />
-            <label htmlFor="privacy" className="text-white text-sm">
-              I have read and agree to the{" "}
-              <Link
-                href="/privacy-policy"
-                className="text-sky-400 hover:underline"
-              >
-                Privacy Policy
-              </Link>
-            </label>
+      <div className="bg-[#fefaf3] py-10 px-4 md:px-16">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-10">
+          <div>
+            {" "}
+            <img src="/letter.png" />
           </div>
-          {privacyError && (
-            <p className="text-red-500 text-sm mt-1">
-              Please check the privacy policy agreement before subscribing.
+          {/* LEFT SIDE (Text) */}
+
+          <div className="md:w-1/2 text-center md:text-left">
+            <h2 className="text-black text-xl font-semibold mb-6">
+              Thoughts from my heart to your inbox.
+            </h2>
+            <p className="text-gray-700 mb-4 max-w-md text-lg items-center">
+              Be the first to know what I'm up to{" "}
             </p>
-          )}
-          {newsletterStatus && (
-            <p className="mt-4 text-white">{newsletterStatus}</p>
-          )}
+          </div>
+
+          {/* RIGHT SIDE (Input + Checkbox) */}
+          <div className="md:w-1/2 w-full">
+            <form
+              onSubmit={handleNewsletterSubmit}
+              className="flex border border-black rounded-sm overflow-hidden"
+            >
+              <input
+                type="email"
+                placeholder="Your E-MAIL HERE"
+                className="w-full px-4 py-3 outline-none bg-transparent text-black placeholder:text-gray-500"
+                required
+                value={newsletterEmail}
+                onChange={(e) => setNewsletterEmail(e.target.value)}
+              />
+              <button
+                type="submit"
+                className="px-8 text-black hover:text-gray-700"
+              >
+                →
+              </button>
+            </form>
+
+            <div className="flex items-start mt-3">
+              <input
+                type="checkbox"
+                id="privacy"
+                className="mr-2 mt-1"
+                onChange={() => setPrivacyChecked(!privacyChecked)}
+                checked={privacyChecked}
+              />
+              <label htmlFor="privacy" className="text-gray-600 text-[16px]">
+                By joining our mailing list , you agree to our{" "}
+                <Link
+                  href="/otherstuffs/privacy-policy"
+                  className="gap-6 underline"
+                >
+                  Terms of service
+                </Link>{" "}
+                and{" "}
+                <Link href="/otherstuffs/privacy-policy" className="underline">
+                  Privacy Policy
+                </Link>
+              </label>
+            </div>
+
+            {privacyError && (
+              <p className="text-red-500 text-sm mt-1">
+                Please check the privacy policy agreement before subscribing.
+              </p>
+            )}
+            {newsletterStatus && (
+              <p className="mt-4 text-black">{newsletterStatus}</p>
+            )}
+          </div>
         </div>
       </div>
 
@@ -161,21 +137,72 @@ const Footer = () => {
       )}
 
       {/* Content Section */}
-      <div className="bg-green-100 flex justify-center py-10">
-        <div className="px-4 md:px-8 w-full max-w-screen-lg flex flex-col md:flex-row justify-between gap-12">
-          {/* Quick Links */}
-          <div className="w-full">
-            <div className="flex mb-4">
-              <img
-                src="/assets/logo.png" // Replace with the actual path to your logo
-                alt="Logo"
-                className="h-28" // Adjust the height as needed
-              />
+      <div className="bg-[#8C4F38] h-[40vh]  py-8 font-sans">
+        <div className="px-4 md:px-8 w-full max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-y-12 md:gap-x-8 text-center md:text-left">
+          {/* Logo and Socials */}
+          <div className="flex flex-col  items-center">
+            <div className="flex md:justify-start mb-6">
+              <h1 className="text-3xl font-medium  tracking-wide text-white">
+                SMRITI JHA
+              </h1>
             </div>
-            <h2 className="text-black font-bold font-serif text-lg">
-              Quick Links
+            <div className="flex justify-center md:justify-start gap-4 text-gray-200">
+              <a
+                href="https://instagram.com/sjhapoetry"
+                target="_blank"
+                className="hover:text-white"
+              >
+                <FaInstagram size={24} />
+              </a>
+              <a
+                href="https://www.linkedin.com/in/smriti-jha-a1210s"
+                target="_blank"
+                className="hover:text-white"
+              >
+                <FaLinkedinIn size={24} />
+              </a>
+              <a
+                href="https://www.youtube.com/@sjhapoetry"
+                target="_blank"
+                className="hover:text-white"
+              >
+                <AiFillYoutube size={26} />
+              </a>
+              <a
+                href="https://www.twitter.com/@erin_nerte"
+                target="_blank"
+                className="hover:text-white"
+              >
+                <FaTwitter size={22} />
+              </a>
+            </div>
+          </div>
+
+          {/* About Smriti */}
+          <div className="flex flex-col  items-center">
+            <h2 className="text-2xl font-medium text-white tracking-wide mb-4 ">
+              About Smriti
             </h2>
-            <ul className="text-black mt-2 space-y-2">
+            <ul className="space-y-3 text-lg text-gray-200">
+              <li>
+                <Link href="/otherstuffs/about" className="hover:underline">
+                  My Story
+                </Link>
+              </li>
+              <li>
+                <Link href="/poetry/allpoetry" className="hover:underline">
+                  My Poetry
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Features */}
+          <div className="flex flex-col justify-center items-center">
+            <h2 className="text-2xl font-medium tracking-wide mb-4 text-white">
+              All Features
+            </h2>
+            <ul className="space-y-3 text-lg text-gray-200">
               <li>
                 <Link href="/submit-poetry" className="hover:underline">
                   Submit Poetry
@@ -194,141 +221,59 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Contact & Socials */}
-          <div className="w-full">
-            <h2 className="text-black font-bold font-serif text-lg">
-              Contact Us
+          {/* Help */}
+          <div className="flex flex-col  items-center">
+            <h2 className="text-2xl font-medium tracking-wide mb-4 text-white">
+              Want Help
             </h2>
-            <p className="text-black mt-2">
-              For inquiries, reach out via form or email:{" "}
-              <a
-                href="mailto:smritipoetry@gmail.com"
-                className="text-blue-600 hover:underline"
-              >
-                smritipoetry@gmail.com
-              </a>
-            </p>
-            <h3 className="text-black font-bold font-serif text-lg mt-6">
-              Follow Us
-            </h3>
-            <div className="flex gap-2 mt-2">
-              <a
-                className="w-[37px] h-[35px] text-white flex justify-center items-center bg-black"
-                href="https://instagram.com/sjhapoetry"
-              >
-                <FaInstagram />
-              </a>
-              <a
-                className="w-[37px] h-[35px] text-white flex justify-center items-center bg-black"
-                href="https://www.linkedin.com/in/smriti-jha-a1210s"
-              >
-                <FaLinkedinIn />
-              </a>
-              <a
-                className="w-[37px] h-[35px] text-white flex justify-center items-center bg-black"
-                href="https://www.youtube.com/@sjhapoetry"
-              >
-                <AiFillYoutube />
-              </a>
-            </div>
-          </div>
-
-          {/* Query Form */}
-          <div className="w-full">
-            <h2 className="text-black font-bold font-serif text-lg">
-              Send Us a Query
-            </h2>
-            <form onSubmit={handleSubmit} className="space-y-4 mt-2">
-              <div className="flex gap-4">
-                <div className="w-1/2">
-                  <label htmlFor="name" className="block text-black">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md"
-                    placeholder="Enter your name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="w-1/2">
-                  <label htmlFor="email" className="block text-black">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md"
-                    placeholder="Enter your email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                  />
-                </div>
-              </div>
-              <div>
-                <label htmlFor="message" className="block text-black">
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
-                  placeholder="Enter your query"
-                  rows="4"
-                  value={formData.message}
-                  onChange={handleInputChange}
-                ></textarea>
-              </div>
-              <button
-                type="submit"
-                className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
-              >
-                Send Message
-              </button>
-            </form>
+            <ul className="space-y-3 text-lg text-gray-200">
+              <li>
+                <Link href="/otherstuffs/contact" className="hover:underline">
+                  Contact
+                </Link>
+              </li>
+              <li>
+                <Link href="/otherstuffs/faq" className="hover:underline">
+                  FAQ
+                </Link>
+              </li>
+              <li>
+                <a
+                  href="mailto:smritipoetry@gmail.com"
+                  className=" hover:text-white"
+                >
+                  Email
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
 
+      <hr className="border-b-0 border-gray-300 " />
+
       {/* Bottom Copyright */}
-      <div className="bg-green-900">
-        <div className="px-4 md:px-8 py-5 flex flex-col md:flex-row gap-3 justify-between items-center">
-          <div className="text-white text-sm">
-            &copy; {new Date().getFullYear()} <Link href="#">Smriti Jha</Link>
+      <div className="bg-[#8C4F38]">
+        <div className="px-4 md:px-8 py-8 flex flex-col md:flex-row justify-center items-center gap-96">
+          <div className="text-gray-200 text-base">
+            &copy; {new Date().getFullYear()}{" "}
+            <Link href="#">
+              , Smriti Jha | Website Designed and Developed by Smriti Jha
+            </Link>
           </div>
-          <div className="flex gap-x-[4px]">
+
+          <div className="flex  text-base">
             <a
               className=" text-white flex justify-center items-center "
-              href="/privacy-policy"
+              href="/otherstuffs/privacy-policy"
             >
               Privacy Policy
             </a>
-          </div>
-          <div className="flex gap-x-[4px]">
             <a
-              className="w-[37px] h-[35px] text-white flex justify-center items-center bg-[#ffffff2b]"
-              href="https://instagram.com/sjhapoetry"
+              className=" text-white flex justify-center items-center ml-4"
+              href="/privacy-policy"
             >
-              <FaInstagram />
-            </a>
-            <a
-              className="w-[37px] h-[35px] text-white flex justify-center items-center bg-[#ffffff2b]"
-              href="https://www.linkedin.com/in/smriti-jha-a1210s"
-            >
-              <FaLinkedinIn />
-            </a>
-            <a
-              className="w-[37px] h-[35px] text-white flex justify-center items-center bg-[#ffffff2b]"
-              href="https://www.youtube.com/@sjhapoetry"
-            >
-              <AiFillYoutube />
+              Terms of use
             </a>
           </div>
         </div>

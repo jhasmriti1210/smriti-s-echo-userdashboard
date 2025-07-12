@@ -5,13 +5,13 @@ import Link from "next/link";
 
 const HeadLines = ({ poetry = {} }) => {
   return (
-    <div className="bg-green-100 shadow flex flex-wrap">
+    <div className="bg-[#fefaf3] shadow flex flex-wrap">
       <div className="flex md:w-[170px] w-full relative">
         <div className="md:pl-8 pl-4 w-full py-2 flex justify-start items-center gap-x-1">
           <span>
             <LoadingSpinner
               type="Ripple"
-              colors={["#006400", "#00c800"]}
+              colors={["#d2691e", "#4b2e2e"]}
               size={"30px"}
             />
           </span>
@@ -29,7 +29,7 @@ const HeadLines = ({ poetry = {} }) => {
                   ? poetry[c].map((n) => (
                       <Link
                         key={n.slug}
-                        className="py-3 block font-semibold hover:text-green-600 pr-12 text-sm"
+                        className="py-3 block font-semibold hover:text-[#4b2e2e] pr-12 text-sm"
                         href={`/poetry/${n.slug}`}
                       >
                         {n.title}

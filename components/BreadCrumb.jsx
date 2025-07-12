@@ -8,10 +8,10 @@ const Breadcrumb = ({ one, two }) => {
         <li className="inline-flex items-center">
           <Link
             href="/"
-            className="inline-flex items-center text-sm font-medium text-green-500 hover:text-green-800"
+            className="inline-flex items-center text-sm font-medium text-[#4b2e2e] hover:text-[#4b2e2e]"
           >
             <svg
-              className="w-3.5 h-3.5 me-2.5 text-green-500"
+              className="w-3.5 h-3.5 me-2.5 text-[#4b2e2e]"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="currentColor"
@@ -39,7 +39,7 @@ const Breadcrumb = ({ one, two }) => {
                 d="m1 9 4-4-4-4"
               />
             </svg>
-            <span className="ms-1 text-sm font-medium text-green-900 hover:text-green-800">
+            <span className="ms-1 text-sm font-medium text-[#4b2e2e] hover:text-[#4b2e2e]">
               {one}
             </span>
           </div>

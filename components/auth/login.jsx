@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { base_api_url } from "@/config/Config";
+import { useAuth } from "../../context/authContext";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -18,6 +19,7 @@ const Auth = () => {
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef(null);
   const router = useRouter();
+  const { login } = useAuth();
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -59,12 +61,14 @@ const Auth = () => {
           const userData = {
             name: data.data?.user?.fullName || "User",
             email: data.data?.user?.email || email,
-            profilePicture: data.data?.user?.profilePicture || null, // Add profile picture
+            profilePicture: data.data?.user?.profilePicture || null,
           };
           localStorage.setItem("user", JSON.stringify(userData));
           localStorage.setItem("authToken", data.token);
-          setProfileImage(userData.profilePicture); // Set profile picture state
+          setProfileImage(userData.profilePicture);
+
           setSuccessMessage("Login successful!");
+          login(userData, data.token);
           router.push("/");
         } else {
           setErrorMessage(data.message || "Login failed. Please try again.");
@@ -99,27 +103,18 @@ const Auth = () => {
         const signupData = await signupResponse.json();
 
         if (signupData.success) {
-          const userData = {
-            fullName: signupData.user?.fullName || fullName,
-            email: signupData.user?.email || email,
-            profilePicture: signupData.user?.profilePicture || "", // ✅ Get real Cloudinary link
-          };
-
-          localStorage.setItem("user", JSON.stringify(userData));
-          localStorage.setItem("authToken", signupData.token);
-
-          setProfileImage(signupData.user?.profilePicture); // ✅ Show real image from Cloudinary
-          setSuccessMessage("Account created successfully! Redirecting...");
+          setSuccessMessage(
+            "Account created successfully! Please verify your email before logging in."
+          );
 
           setTimeout(() => {
-            setIsLogin(true);
+            setIsLogin(true); // Switch to login mode
             setFullName("");
             setEmail("");
             setPassword("");
             setConfirmPassword("");
             setProfileImage(null);
-            setSuccessMessage("");
-          }, 1500);
+          }, 2500); // Wait before switching to login
         } else {
           setErrorMessage(
             signupData.message || "Signup failed. Please try again."
@@ -149,8 +144,8 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-yellow-100 to-green-600">
-      <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-[#fefaf3] ">
+      <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md mt-32">
         {/* Logo */}
         <div className="flex justify-center mb-6">
           <img src="/logo.png" alt="Logo" className="h-32" />

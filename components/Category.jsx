@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { base_api_url } from "../config/Config";
 
 const Category = async ({ titleStyle }) => {
+  const [headerHeight, setHeaderHeight] = useState(0);
+
+  useEffect(() => {
+    const header = document.querySelector("header");
+    if (header) {
+      setHeaderHeight(header.offsetHeight);
+    }
+  }, []);
+
   const res = await fetch(`${base_api_url}/api/category/all`, {
     next: {
       revalidate: 5,
@@ -18,7 +27,10 @@ const Category = async ({ titleStyle }) => {
   const { categories } = await res.json();
 
   return (
-    <div className="w-full flex flex-col gap-y-[14px]">
+    <div
+      className="w-full flex flex-col gap-y-[14px]"
+      style={{ marginTop: `${headerHeight}px` }}
+    >
       <div
         className={`text-xl font-bold ${titleStyle} relative before:absolute before:w-[4px] before:bg-[#c80000] before:h-full before:-left-0 pl-3`}
       >

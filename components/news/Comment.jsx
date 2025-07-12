@@ -6,7 +6,7 @@ import { base_api_url } from "../../config/Config";
 const CommentSection = ({ poetryId, initialComments }) => {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState(initialComments);
-  const [showAllComments, setShowAllComments] = useState(false);
+
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userName, setUserName] = useState("");
 
@@ -78,44 +78,10 @@ const CommentSection = ({ poetryId, initialComments }) => {
     }
   };
 
-  const toggleShowAllComments = () => {
-    setShowAllComments((prev) => !prev);
-  };
-
-  const displayedComments = showAllComments ? comments : comments.slice(0, 2);
-
   return (
     <div className="w-full pb-4 mt-5">
       <div className="flex flex-col w-full gap-y-3">
         <h2 className="text-lg font-semibold text-gray-700">Comments</h2>
-
-        {/* Display comments */}
-        <div className="space-y-3">
-          {displayedComments?.map((comment, index) => (
-            <div key={index} className="bg-gray-100 p-3 rounded-md">
-              <p className="font-bold text-sm">{comment.name}</p>
-              <p className="text-sm">{comment.text}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* Show More / Show Less Buttons */}
-        {comments.length > 3 && !showAllComments && (
-          <button
-            onClick={toggleShowAllComments}
-            className="text-blue-600 text-sm mt-2"
-          >
-            Show more comments
-          </button>
-        )}
-        {showAllComments && comments.length > 2 && (
-          <button
-            onClick={toggleShowAllComments}
-            className="text-blue-600 text-sm mt-2"
-          >
-            Show fewer comments
-          </button>
-        )}
 
         {/* Comment submission section */}
         <div className="mt-3">

@@ -62,7 +62,7 @@ const AudioSection = ({ audio }) => {
       {/* Play/Pause Button */}
       <button
         onClick={togglePlay}
-        className="text-white bg-green-700 hover:bg-green-700 rounded-full p-2"
+        className="text-white bg-[#4b2e2e] hover:bg-[#4b2e2e] rounded-full p-2"
       >
         {isPlaying ? <FaPause size={14} /> : <FaPlay size={14} />}
       </button>

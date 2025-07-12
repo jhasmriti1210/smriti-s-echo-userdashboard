@@ -38,10 +38,11 @@ const Header_Category = () => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full relative">
+      {/* Top Bar */}
       <div className="bg-green-800 w-full text-white uppercase font-semibold relative">
         <div className="px-8 flex justify-between items-center relative h-[48px]">
-          {/* Hamburger icon for small screens */}
+          {/* Hamburger icon */}
           <div
             onClick={() => set_cate_show(!cate_show)}
             className={`text-3xl flex lg:hidden font-bold h-full w-[48px] cursor-pointer justify-center items-center ${
@@ -51,7 +52,7 @@ const Header_Category = () => {
             <BsList />
           </div>
 
-          {/* Links for large screens */}
+          {/* Desktop Links */}
           <div className="flex-wrap hidden lg:flex">
             <Link
               className={`px-6 font-medium py-[13px] ${
@@ -92,7 +93,7 @@ const Header_Category = () => {
 
             {/* Search dropdown */}
             <div
-              className={`absolute lg:block transition-all text-slate-700 z-20 shadow-lg lg:right-10 top-[50px] w-full lg:w-[300px] right-0 ${
+              className={`absolute transition-all text-slate-700 z-20 shadow-lg lg:right-10 top-[50px] w-full lg:w-[300px] right-0 ${
                 show ? "visible" : "invisible"
               }`}
             >
@@ -118,12 +119,12 @@ const Header_Category = () => {
         </div>
       </div>
 
-      {/* Categories dropdown for small screens */}
+      {/* Mobile Dropdown Menu */}
       {cate_show && (
-        <div className="flex flex-wrap lg:hidden py-2 px-[30px]">
+        <div className="absolute top-[48px] left-0 w-full bg-green-900 text-white z-50 flex flex-col shadow-md lg:hidden transition-all duration-300">
           <Link
-            className={`px-4 font-medium py-[5px] ${
-              path === "/" ? "bg-[#00000026]" : ""
+            className={`py-3 px-6 hover:bg-green-800 ${
+              path === "/" ? "bg-green-800" : ""
             }`}
             href={"/"}
           >
@@ -132,10 +133,8 @@ const Header_Category = () => {
           {categories.map((c, i) => (
             <Link
               key={i}
-              className={`px-4 font-medium py-[5px] ${
-                path === `/poetry/category/${c.category}`
-                  ? "bg-[#00000026]"
-                  : ""
+              className={`py-3 px-6 hover:bg-green-800 ${
+                path === `/poetry/category/${c.category}` ? "bg-green-800" : ""
               }`}
               href={`/poetry/category/${c.category}`}
             >

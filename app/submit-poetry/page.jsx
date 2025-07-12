@@ -85,7 +85,7 @@ export default function SubmitPoetryPage() {
   };
 
   return (
-    <div className="flex flex-col w-full mx-auto gap-6 bg-gray-50 rounded-lg shadow-lg">
+    <div className="flex flex-col w-full mx-auto gap-6 bg-gray-50 rounded-lg shadow-lg mt-32">
       {/* Main Content - Centered Layout */}
       <div className="flex flex-col lg:flex-row gap-6 justify-center items-center mt-5">
         {/* Left Column - Submission Form */}

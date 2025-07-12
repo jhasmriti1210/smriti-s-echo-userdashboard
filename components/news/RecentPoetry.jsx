@@ -12,14 +12,13 @@ const RecentPoetry = async () => {
   const { poetry } = await res.json();
 
   return (
-    <div className="w-full flex flex-col gap-y-[14px] bg-green-100 pt-4">
-      <div className="pl-4">
-        <Title title="Recent Poetries" />
-      </div>
-      <div className="grid grid-cols-1 gap-y-3">
+    <div className="w-full flex flex-col gap-y-[14px]  pt-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
         {poetry &&
           poetry.length > 0 &&
-          poetry.map((item, i) => <PoetryCard key={i} item={item} />)}
+          poetry
+            .slice(0, 3)
+            .map((item, i) => <PoetryCard key={i} item={item} />)}
       </div>
     </div>
   );

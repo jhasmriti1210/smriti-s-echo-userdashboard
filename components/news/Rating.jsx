@@ -14,21 +14,33 @@ const RatingSection = ({ poetryId, initialRating, userRating }) => {
   const [hasRated, setHasRated] = useState(false);
   const router = useRouter();
 
-  // Check if the user is authenticated
+  // Check if the user is authenticated and if they've already rated
   useEffect(() => {
     if (typeof window !== "undefined") {
       const token = localStorage.getItem("authToken");
+      const hasUserRated = localStorage.getItem(`hasRated-${poetryId}`);
+      const savedRating = localStorage.getItem(`rating-${poetryId}`);
+
       if (token) {
         setIsAuthenticated(true);
       } else {
         setIsAuthenticated(false);
       }
 
+      // If the user is logged in and has already rated, display the rating
+      if (hasUserRated === "true" && savedRating) {
+        setHasRated(true); // User has rated, prevent further rating
+        setRating(savedRating); // Retrieve and set the previously submitted rating
+      } else {
+        setHasRated(false); // Reset hasRated if not rated
+        setRating(0); // Reset rating if not rated
+      }
+
       if (userRating) {
-        setHasRated(true);
+        setRating(userRating); // Set the initial rating if it's provided
       }
     }
-  }, [userRating]);
+  }, [userRating, poetryId]);
 
   // Handle rating submission
   const handleRatingSubmit = async () => {
@@ -57,13 +69,15 @@ const RatingSection = ({ poetryId, initialRating, userRating }) => {
             typeof window !== "undefined"
               ? localStorage.getItem("authToken")
               : ""
-          }`, // Safe access
+          }`,
         },
       });
 
       const data = await res.json();
       if (data.message === "Rating added successfully") {
-        setHasRated(true); // Mark that the user has rated
+        localStorage.setItem(`hasRated-${poetryId}`, "true"); // Mark as rated in localStorage
+        localStorage.setItem(`rating-${poetryId}`, rating); // Save the submitted rating
+        setHasRated(true); // Update the state to reflect the rating has been submitted
         alert("Thank you for your rating!");
       } else {
         alert("There was an error while submitting your rating.");
@@ -72,6 +86,24 @@ const RatingSection = ({ poetryId, initialRating, userRating }) => {
       console.error("Error submitting rating:", error);
       alert("Something went wrong while submitting your rating.");
     }
+  };
+
+  // Clear rating information from localStorage on logout
+  const clearRatingData = () => {
+    localStorage.removeItem(`hasRated-${poetryId}`);
+    localStorage.removeItem(`rating-${poetryId}`);
+  };
+
+  // Add a logout handler that will call `clearRatingData` to clear rating data
+  const handleLogout = () => {
+    // Clear rating data when the user logs out
+    clearRatingData();
+    // Perform other logout operations (e.g., removing auth token, redirecting)
+    localStorage.removeItem("authToken");
+    setIsAuthenticated(false);
+    setHasRated(false); // Reset state to reflect that the user has not rated
+    setRating(0); // Reset the rating state to 0
+    router.push("/login"); // Redirect user to login page
   };
 
   return (
@@ -104,6 +136,7 @@ const RatingSection = ({ poetryId, initialRating, userRating }) => {
           ))}
         </div>
 
+        {/* Submit Rating Button */}
         <button
           onClick={handleRatingSubmit}
           className="mt-2 px-4 py-2 bg-blue-600 text-white rounded-md disabled:opacity-50"
@@ -112,9 +145,19 @@ const RatingSection = ({ poetryId, initialRating, userRating }) => {
           {hasRated ? "Rating Submitted" : "Submit Rating"}
         </button>
 
-        <div className="mt-2 text-sm text-gray-600">
-          Average Rating: {initialRating || "N/A"}
-        </div>
+        {/* Display message if user already rated */}
+        {hasRated && (
+          <div className="mt-2 text-sm text-green-500">
+            You have already submitted a rating of {rating} stars.
+          </div>
+        )}
+
+        {/* Show login message if not authenticated */}
+        {!isAuthenticated && !hasRated && (
+          <div className="mt-2 text-sm text-red-500">
+            You need to log in to submit a rating.
+          </div>
+        )}
       </div>
     </div>
   );

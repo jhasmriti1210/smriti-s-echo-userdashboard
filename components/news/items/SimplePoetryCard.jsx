@@ -33,11 +33,11 @@ const SimplePoetryCard = ({ item, type }) => {
       <div className="mt-3 flex flex-col gap-y-1 text-black font-semibold ml-8">
         <Link
           href={`/poetry/${slug}`}
-          className="text-xl hover:text-green-700 transition-colors duration-300"
+          className="text-xl hover:text-[#4b2e2e] transition-colors duration-300"
         >
           {item.title}
         </Link>
-        <div className="flex gap-x-2 text-sm font-normal text-gray-600">
+        <div className="flex gap-x-2 text-sm font-normal text-gray-700">
           <span>{item.date}</span>
           <span>{item.writerName}</span>
         </div>

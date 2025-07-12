@@ -1,6 +1,6 @@
 // config/Config.js
 
-const local_api_url = 'http://localhost:5000';
+const local_api_url = 'https://smriti-s-echo-admin.onrender.com';
 const production_api_url = 'https://smriti-s-echo-admin.onrender.com';
 
 // Automatically switch based on environment (Vercel sets NODE_ENV=production)

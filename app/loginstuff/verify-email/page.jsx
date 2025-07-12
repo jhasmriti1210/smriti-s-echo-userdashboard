@@ -1,4 +1,5 @@
-export const dynamic = "force-dynamic"; // must be top-level
+"use client";
+export const dynamic = "force-dynamic"; // force client-only rendering
 
 import { Suspense } from "react";
 import EmailVerifier from "./EmailVerifier";

@@ -1,8 +1,8 @@
 "use client";
 import { useSearchParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 
-export default function VerifyEmailPage() {
+function EmailVerifier() {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
   const [message, setMessage] = useState("Verifying...");
@@ -15,7 +15,7 @@ export default function VerifyEmailPage() {
 
       try {
         const res = await fetch(
-          `http://localhost:5000/api/verify-email?token=${token}`
+          `https://smriti-s-echo-admin.onrender.com/api/verify-email?token=${token}`
         );
         const data = await res.json();
 
@@ -46,5 +46,13 @@ export default function VerifyEmailPage() {
         </button>
       )}
     </div>
+  );
+}
+
+export default function VerifyEmailPage() {
+  return (
+    <Suspense fallback={<div className="text-center mt-72">Loading...</div>}>
+      <EmailVerifier />
+    </Suspense>
   );
 }

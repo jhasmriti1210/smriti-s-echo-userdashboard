@@ -28,11 +28,14 @@ export default function DashboardPage() {
       }
 
       try {
-        const res = await fetch("http://localhost:5000/api/user-profile", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const res = await fetch(
+          "https://smriti-s-echo-admin.onrender.com/api/user-profile",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         const data = await res.json();
         if (data.success) {

@@ -11,7 +11,7 @@ import Footer from "@/components/Footer";
 
 const AboutPage = () => {
   return (
-    <div className="min-h-screen bg-[#fefaf3] text-gray-800 mt-28">
+    <div className="min-h-screen bg-[#dfecde] text-gray-800 mt-20">
       {/* Flex Container */}
       <div className="max-w-7xl mx-auto px-6 md:px-10 py-16 flex flex-col md:flex-row gap-20 items-start">
         {/* Left: Artistic Image */}
@@ -46,9 +46,7 @@ const AboutPage = () => {
           <p className="text-lg leading-relaxed mb-4">
             A curious mind in the world of code, and a tender heart in the world
             of verse — I’m <span className="font-semibold">Smriti Jha</span>, a{" "}
-            <span className="text-blue-700 font-medium">
-              software developer
-            </span>{" "}
+            <span className="text-blue-700 font-medium">Software Engineer</span>{" "}
             by profession and a{" "}
             <span className="text-pink-700 font-medium">poet</span> by soul.
           </p>

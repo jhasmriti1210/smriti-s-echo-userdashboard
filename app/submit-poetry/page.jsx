@@ -85,17 +85,17 @@ export default function SubmitPoetryPage() {
   };
 
   return (
-    <div className="flex flex-col w-full mx-auto gap-6 bg-gray-50 rounded-lg shadow-lg mt-32">
+    <div className="flex flex-col w-full mx-auto gap-6 bg-[#dfecde] rounded-lg shadow-lg mt-20">
       {/* Main Content - Centered Layout */}
       <div className="flex flex-col lg:flex-row gap-6 justify-center items-center mt-5">
         {/* Left Column - Submission Form */}
         <div className="flex-1 max-w-6xl bg-white p-6 rounded-lg shadow-lg">
           <h1 className="text-3xl font-semibold text-gray-900 mb-4 flex justify-center items-center">
-            Submit your work on Smriti's Echoes
+            Submit your work
           </h1>
           <p className="mb-6 text-md text-gray-700 flex justify-center items-center">
             Share your work with us. Upload your Poetry and get a chance to be
-            featured on Smriti's Echoes.
+            featured on my Website.
           </p>
 
           {/* Guidelines */}
@@ -197,7 +197,7 @@ export default function SubmitPoetryPage() {
 
             <button
               onClick={handleSubmit}
-              className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition duration-200"
+              className="px-6 py-3 bg-[#C1440E] hover:bg-[#a6370d] text-white rounded-lg transition duration-200"
               disabled={loading}
             >
               {loading ? "Submitting..." : "Continue Submission"}

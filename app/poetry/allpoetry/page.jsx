@@ -41,11 +41,11 @@ const Home = async () => {
   const filteredTestimonials = testimonials.filter((t) => t.averageRating >= 3);
 
   return (
-    <div className="mt-32">
+    <div className="mt-20">
       <main>
         <HeadLines poetry={poetry} />
 
-        <div className="bg-slate-100">
+        <div className="bg-[#dfecde]">
           <div className="px-4 md:px-8 py-8">
             {/* Poetry Section */}
             <div className="flex flex-wrap">

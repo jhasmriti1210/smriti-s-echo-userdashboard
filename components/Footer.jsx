@@ -10,7 +10,6 @@ const Footer = () => {
   const [status, setStatus] = useState("");
   const [newsletterStatus, setNewsletterStatus] = useState("");
   const [privacyError, setPrivacyError] = useState(false);
-
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [privacyChecked, setPrivacyChecked] = useState(false);
 
@@ -55,24 +54,21 @@ const Footer = () => {
   return (
     <div className="w-full">
       {/* Newsletter Section */}
-      <div className="bg-[#fefaf3] py-10 px-4 md:px-16">
+      <div className="bg-[#e7ede6] py-10 px-4 md:px-16">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-10">
           <div>
-            {" "}
             <img src="/letter.png" />
           </div>
-          {/* LEFT SIDE (Text) */}
 
           <div className="md:w-1/2 text-center md:text-left">
             <h2 className="text-black text-xl font-semibold mb-6">
               Thoughts from my heart to your inbox.
             </h2>
-            <p className="text-gray-700 mb-4 max-w-md text-lg items-center">
-              Be the first to know what I'm up to{" "}
+            <p className="text-gray-700 mb-4 max-w-md text-lg">
+              Be the first to know what I'm up to
             </p>
           </div>
 
-          {/* RIGHT SIDE (Input + Checkbox) */}
           <div className="md:w-1/2 w-full">
             <form
               onSubmit={handleNewsletterSubmit}
@@ -129,24 +125,15 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Notification */}
-      {status && (
-        <div className="fixed top-0 left-0 right-0 bg-green-500 text-white py-3 px-4 text-center shadow-lg z-50">
-          <p>{status}</p>
-        </div>
-      )}
-
-      {/* Content Section */}
-      <div className="bg-[#8C4F38] h-[40vh]  py-8 font-sans">
-        <div className="px-4 md:px-8 w-full max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-y-12 md:gap-x-8 text-center md:text-left">
-          {/* Logo and Socials */}
-          <div className="flex flex-col  items-center">
-            <div className="flex md:justify-start mb-6">
-              <h1 className="text-3xl font-medium  tracking-wide text-white">
-                SMRITI JHA
-              </h1>
-            </div>
-            <div className="flex justify-center md:justify-start gap-4 text-gray-200">
+      {/* Footer Content */}
+      <div className="bg-[#3A6B35] py-12 font-sans">
+        <div className="px-4 md:px-8 w-full max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 text-center md:text-left">
+          {/* Logo & Socials */}
+          <div className="flex flex-col items-center md:items-start">
+            <h1 className="text-3xl font-medium tracking-wide text-white mb-4">
+              SMRITI JHA
+            </h1>
+            <div className="flex gap-4 text-gray-200 justify-center md:justify-start">
               <a
                 href="https://instagram.com/sjhapoetry"
                 target="_blank"
@@ -179,11 +166,11 @@ const Footer = () => {
           </div>
 
           {/* About Smriti */}
-          <div className="flex flex-col  items-center">
-            <h2 className="text-2xl font-medium text-white tracking-wide mb-4 ">
+          <div className="flex flex-col items-center md:items-start">
+            <h2 className="text-xl font-semibold text-white mb-3">
               About Smriti
             </h2>
-            <ul className="space-y-3 text-lg text-gray-200">
+            <ul className="space-y-2 text-lg text-gray-200">
               <li>
                 <Link href="/otherstuffs/about" className="hover:underline">
                   My Story
@@ -198,11 +185,11 @@ const Footer = () => {
           </div>
 
           {/* Features */}
-          <div className="flex flex-col justify-center items-center">
-            <h2 className="text-2xl font-medium tracking-wide mb-4 text-white">
+          <div className="flex flex-col items-center md:items-start">
+            <h2 className="text-xl font-semibold text-white mb-3">
               All Features
             </h2>
-            <ul className="space-y-3 text-lg text-gray-200">
+            <ul className="space-y-2 text-lg text-gray-200">
               <li>
                 <Link href="/submit-poetry" className="hover:underline">
                   Submit Poetry
@@ -222,11 +209,9 @@ const Footer = () => {
           </div>
 
           {/* Help */}
-          <div className="flex flex-col  items-center">
-            <h2 className="text-2xl font-medium tracking-wide mb-4 text-white">
-              Want Help
-            </h2>
-            <ul className="space-y-3 text-lg text-gray-200">
+          <div className="flex flex-col items-center md:items-start">
+            <h2 className="text-xl font-semibold text-white mb-3">Want Help</h2>
+            <ul className="space-y-2 text-lg text-gray-200">
               <li>
                 <Link href="/otherstuffs/contact" className="hover:underline">
                   Contact
@@ -240,7 +225,7 @@ const Footer = () => {
               <li>
                 <a
                   href="mailto:smritipoetry@gmail.com"
-                  className=" hover:text-white"
+                  className="hover:underline"
                 >
                   Email
                 </a>
@@ -250,31 +235,15 @@ const Footer = () => {
         </div>
       </div>
 
-      <hr className="border-b-0 border-gray-300 " />
-
       {/* Bottom Copyright */}
-      <div className="bg-[#8C4F38]">
-        <div className="px-4 md:px-8 py-8 flex flex-col md:flex-row justify-center items-center gap-96">
-          <div className="text-gray-200 text-base">
-            &copy; {new Date().getFullYear()}{" "}
-            <Link href="#">
-              , Smriti Jha | Website Designed and Developed by Smriti Jha
-            </Link>
-          </div>
-
-          <div className="flex  text-base">
-            <a
-              className=" text-white flex justify-center items-center "
-              href="/otherstuffs/privacy-policy"
-            >
-              Privacy Policy
-            </a>
-            <a
-              className=" text-white flex justify-center items-center ml-4"
-              href="/privacy-policy"
-            >
-              Terms of use
-            </a>
+      <div className="bg-[#3A6B35] border-t border-white">
+        <div className="px-4 py-6 flex flex-col md:flex-row justify-center md:justify-between items-center gap-4 text-center">
+          <p className="text-gray-200 text-sm">
+            © {new Date().getFullYear()} Smriti Jha | Website designed &
+            developed by Smriti Jha
+          </p>
+          <div className="text-sm flex gap-4 text-white">
+            <Link href="/otherstuffs/privacy-policy">Privacy Policy</Link>
           </div>
         </div>
       </div>

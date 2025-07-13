@@ -5,9 +5,9 @@ import Link from "next/link";
 
 const HeadLines = ({ poetry = {} }) => {
   return (
-    <div className="bg-[#fefaf3] shadow flex flex-wrap">
+    <div className="bg-[#dfecde] shadow flex flex-wrap">
       <div className="flex md:w-[170px] w-full relative">
-        <div className="md:pl-8 pl-4 w-full py-2 flex justify-start items-center gap-x-1">
+        <div className="md:pl-8 pl-4 w-full py-4 flex justify-start items-center gap-x-1">
           <span>
             <LoadingSpinner
               type="Ripple"

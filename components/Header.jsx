@@ -2,10 +2,13 @@
 
 import React, { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { UserCircleIcon } from "@heroicons/react/solid";
+import { UserCircleIcon } from "@heroicons/react/24/solid";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { FaInstagram, FaYoutube, FaLinkedin, FaTwitter } from "react-icons/fa";
+
 import Image from "next/image";
-import { base_api_url } from "../config/Config";
 import Link from "next/link";
+import { base_api_url } from "../config/Config";
 import { useAuth } from "../context/authContext";
 
 const Header = () => {
@@ -15,12 +18,18 @@ const Header = () => {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [categories, setCategories] = useState([]);
   const [scrolled, setScrolled] = useState(false);
 
   const isAuthenticated = !!user;
+  const isHome = pathname === "/";
+  const headerBg = isHome
+    ? scrolled
+      ? "bg-[#3A6B35]"
+      : "bg-transparent"
+    : "bg-[#3A6B35]";
 
-  // Scroll effect for homepage
   useEffect(() => {
     if (pathname === "/") {
       const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -29,16 +38,14 @@ const Header = () => {
     }
   }, [pathname]);
 
-  // Fetch categories on mount
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const res = await fetch(`${base_api_url}/api/category/all`);
         const data = await res.json();
         if (res.ok) setCategories(data.categories);
-        else console.error("Failed to load categories:", data);
       } catch (error) {
-        console.error("Error fetching categories:", error);
+        console.error("Category fetch error:", error);
       }
     };
     fetchCategories();
@@ -46,112 +53,92 @@ const Header = () => {
 
   const handleProtectedRoute = (path) => {
     isAuthenticated ? router.push(path) : router.push("/loginstuff/auth");
+    setMobileMenuOpen(false);
   };
 
   const handleLogout = () => {
     logout();
     setDropdownOpen(false);
+    setMobileMenuOpen(false);
     router.push("/");
   };
 
   const toggleDropdown = () => setDropdownOpen((prev) => !prev);
   const toggleCategoryDropdown = () => setCategoryDropdownOpen((prev) => !prev);
 
-  const isHome = pathname === "/";
-  const headerBg = isHome
-    ? scrolled
-      ? "bg-[#8C4F38]"
-      : "bg-transparent"
-    : "bg-[#8C4F38]";
-
   return (
     <div
       className={`${headerBg} fixed top-0 w-full z-50 transition-colors duration-300`}
     >
-      <div className="flex flex-col lg:flex-row justify-between items-center px-5 lg:px-8 text-white py-6">
+      <div className="flex justify-between items-center px-5 lg:px-10 py-5 text-white">
         {/* Logo */}
-        <div className="text-xs lg:text-sm font-medium lg:mb-0 ml-10">
-          <a href="/">
-            <img src="/name.png" className="w-32 h-auto" alt="Smriti Jha" />
-          </a>
-        </div>
+        <Link href="/" className="flex items-center">
+          <img src="/name.png" className="w-32 h-auto" alt="Smriti Jha" />
+        </Link>
 
-        {/* Navigation */}
-        <div className="flex gap-2 flex-wrap justify-center relative">
-          <button className="px-4 text-sm md:text-base font-medium hover:underline transition">
-            <Link href="/poetry/allpoetry">My Poetry</Link>
-          </button>
-
+        {/* Desktop Navigation */}
+        <div className="hidden lg:flex gap-10 items-center">
+          <Link href="/poetry/allpoetry" className="hover:underline text-sm">
+            My Poetry
+          </Link>
           <button
             onClick={() => handleProtectedRoute("/submit-poetry")}
-            className="px-4 text-sm md:text-base font-medium hover:underline transition"
+            className="hover:underline text-sm"
           >
             Submit Your Poetry
           </button>
-
           <button
             onClick={() => handleProtectedRoute("/otherstuffs/dictionary")}
-            className="px-4 py-1.5 text-sm md:text-base font-medium hover:underline transition"
+            className="hover:underline text-sm"
           >
             Dictionary
           </button>
-
-          {/* Category Dropdown */}
           <div className="relative">
             <button
               onClick={toggleCategoryDropdown}
-              className="px-4 py-1.5 text-sm md:text-base font-medium hover:underline transition"
+              className="hover:underline text-sm"
             >
               Categories
             </button>
             {categoryDropdownOpen && (
-              <div className="absolute top-12 left-0 bg-white text-black z-50 min-w-[200px] max-h-[300px] overflow-y-auto">
-                {categories.length === 0 ? (
-                  <p className="p-3 text-sm">No categories found.</p>
-                ) : (
-                  categories.map((cat, index) => (
-                    <button
-                      key={index}
-                      onClick={() => {
-                        router.push(`/poetry/category/${cat.category}`);
-                        setCategoryDropdownOpen(false);
-                      }}
-                      className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
-                    >
-                      {cat.category} ({cat.count})
-                    </button>
-                  ))
-                )}
+              <div className="absolute top-10 left-0 bg-white text-black z-50 min-w-[200px] max-h-[300px] overflow-y-auto shadow">
+                {categories.map((cat, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      router.push(`/poetry/category/${cat.category}`);
+                      setCategoryDropdownOpen(false);
+                    }}
+                    className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+                  >
+                    {cat.category} ({cat.count})
+                  </button>
+                ))}
               </div>
             )}
           </div>
-
-          <button
+          {/* <button
             onClick={() => handleProtectedRoute("/smritis-muse")}
-            className="px-4 text-sm md:text-base font-medium hover:underline transition"
+            className="hover:underline text-sm"
           >
             Smriti's Muse
-          </button>
-
-          <button className="px-4 text-sm md:text-base font-medium hover:underline transition">
-            <Link href="/otherstuffs/about">About Me</Link>
-          </button>
+          </button> */}
+          <Link href="/otherstuffs/about" className="hover:underline text-sm">
+            About Me
+          </Link>
         </div>
 
-        {/* Profile / Login */}
-        <div className="relative flex items-center">
+        {/* Right Auth/Profile */}
+        <div className="hidden lg:flex items-center">
           {isAuthenticated ? (
-            <button
-              onClick={toggleDropdown}
-              className="rounded-full p-1 focus:outline-none ml-3"
-            >
+            <button onClick={toggleDropdown} className="ml-3">
               {user?.profilePicture ? (
                 <Image
                   src={user.profilePicture}
                   alt="Profile"
                   width={40}
                   height={40}
-                  className="rounded-full border-2 border-white object-cover"
+                  className="rounded-full border-2 border-white"
                 />
               ) : (
                 <UserCircleIcon className="w-10 h-10 text-white" />
@@ -160,31 +147,29 @@ const Header = () => {
           ) : (
             <button
               onClick={() => router.push("/loginstuff/auth")}
-              className="ml-3 px-4 py-1.5 text-xs md:text-sm font-semibold rounded-full shadow hover:bg-green-700 transition"
+              className="ml-3 px-4 py-1.5 bg-white text-black rounded-full text-sm hover:bg-gray-300 transition"
             >
               Login
             </button>
           )}
 
-          {/* Profile Dropdown */}
           {dropdownOpen && (
-            <div className="absolute right-0 top-12 bg-white text-black shadow-lg rounded-lg py-3 w-48 z-50">
+            <div className="absolute top-16 right-10 bg-white text-black shadow-lg rounded-lg py-3 w-48 z-50">
               <div className="px-4 py-2 text-center">
                 <button
                   onClick={() => {
                     router.push("/loginstuff/dashboardpage");
                     setDropdownOpen(false);
                   }}
-                  className="w-full text-sm text-white bg-green-700 px-4 py-2 rounded hover:bg-green-800 transition"
+                  className="w-full text-sm bg-green-700 text-white py-2 rounded hover:bg-green-800"
                 >
-                  Go to Dashboard
+                  Dashboard
                 </button>
               </div>
-
               <div className="px-4 py-2 text-center">
                 <button
                   onClick={handleLogout}
-                  className="w-full text-sm text-white bg-red-600 px-4 py-2 rounded hover:bg-red-700 transition"
+                  className="w-full text-sm bg-red-600 text-white py-2 rounded hover:bg-red-700"
                 >
                   Logout
                 </button>
@@ -192,7 +177,169 @@ const Header = () => {
             </div>
           )}
         </div>
+
+        {/* Hamburger Icon */}
+        <div className="lg:hidden">
+          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+            {mobileMenuOpen ? (
+              <XMarkIcon className="w-8 h-8 text-white" />
+            ) : (
+              <Bars3Icon className="w-8 h-8 text-white" />
+            )}
+          </button>
+        </div>
       </div>
+
+      {/* Mobile Menu Overlay */}
+      {mobileMenuOpen && (
+        <div className="lg:hidden fixed inset-0 bg-white text-black z-50 flex flex-col justify-between">
+          {/* Top Bar */}
+          <div className="flex items-center justify-between p-4 border-b">
+            <button onClick={() => setMobileMenuOpen(false)}>
+              <XMarkIcon className="w-6 h-6 text-black" />
+            </button>
+
+            <Link href="/" className="flex justify-center items-center gap-2">
+              <img
+                src="/namesmall.png"
+                alt="Smriti Jha"
+                className="w-32 h-auto"
+              />
+            </Link>
+
+            {/* Profile Icon */}
+            {isAuthenticated ? (
+              <button onClick={toggleDropdown}>
+                {user?.profilePicture ? (
+                  <Image
+                    src={user.profilePicture}
+                    alt="Profile"
+                    width={36}
+                    height={36}
+                    className="rounded-full border border-black"
+                  />
+                ) : (
+                  <UserCircleIcon className="w-8 h-8 text-black" />
+                )}
+              </button>
+            ) : (
+              <div className="w-8" />
+            )}
+          </div>
+
+          {/* Navigation */}
+          <div className="flex flex-col gap-6 px-2 py-6 text-base font-medium">
+            <Link
+              href="/poetry/allpoetry"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex justify-between w-full"
+            >
+              My Poetry <span>→</span>
+            </Link>
+            <button
+              onClick={() => handleProtectedRoute("/submit-poetry")}
+              className="flex justify-between w-full"
+            >
+              Submit Your Poetry <span>→</span>
+            </button>
+            <button
+              onClick={() => handleProtectedRoute("/otherstuffs/dictionary")}
+              className="flex justify-between w-full"
+            >
+              Dictionary <span>→</span>
+            </button>
+
+            {/* Categories */}
+            <div>
+              <button
+                onClick={toggleCategoryDropdown}
+                className="flex justify-between w-full"
+              >
+                Categories <span>→</span>
+              </button>
+              {categoryDropdownOpen && (
+                <div className="mt-2 bg-gray-100 rounded p-3 text-sm space-y-1">
+                  {categories.map((cat, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => {
+                        router.push(`/poetry/category/${cat.category}`);
+                        setCategoryDropdownOpen(false);
+                        setMobileMenuOpen(false);
+                      }}
+                      className="block w-full text-left px-2 py-1 hover:bg-gray-200"
+                    >
+                      {cat.category} ({cat.count})
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* <button
+              onClick={() => handleProtectedRoute("/smritis-muse")}
+              className="flex justify-between w-full"
+            >
+              Smriti's Muse <span>→</span>
+            </button> */}
+            <Link
+              href="/otherstuffs/about"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex justify-between w-full"
+            >
+              About Me <span>→</span>
+            </Link>
+          </div>
+          {/* Social Icons */}
+          <div className="flex justify-center gap-6 pt-4 text-xl text-black border-t border-gray-200">
+            <Link href="https://instagram.com" target="_blank">
+              <FaInstagram />
+            </Link>
+            <Link href="https://youtube.com" target="_blank">
+              <FaYoutube />
+            </Link>
+            <Link href="https://linkedin.com" target="_blank">
+              <FaLinkedin />
+            </Link>
+            <Link href="https://twitter.com" target="_blank">
+              <FaTwitter />
+            </Link>
+          </div>
+
+          {/* Auth + Social Footer */}
+          <div className="px-6 py-6 border-t flex flex-col gap-4">
+            {isAuthenticated ? (
+              <>
+                <button
+                  onClick={() => {
+                    router.push("/loginstuff/dashboardpage");
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full py-2 bg-green-700 text-white rounded text-sm"
+                >
+                  Dashboard
+                </button>
+                <button
+                  onClick={handleLogout}
+                  className="w-full py-2 bg-red-600 text-white rounded text-sm"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={() => {
+                  router.push("/loginstuff/auth");
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full py-2 bg-black text-white rounded text-sm"
+              >
+                Login
+              </button>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

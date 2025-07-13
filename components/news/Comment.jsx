@@ -90,7 +90,7 @@ const CommentSection = ({ poetryId, initialComments }) => {
             onChange={(e) => setComment(e.target.value)}
             placeholder="Add a comment..."
             rows={3}
-            className="w-full p-1.5 border rounded-md mb-2 text-sm"
+            className="w-full p-1.5 border rounded-md mb-2 text-sm text-gray-800"
           />
           <button
             onClick={handleCommentSubmit}

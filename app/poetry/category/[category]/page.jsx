@@ -16,12 +16,12 @@ const CategoryPoetry = async ({ params }) => {
 
   return (
     <div>
-      <div className=" bg-[#fefaf3] shadow-lg py-4 mt-24">
+      <div className=" bg-[#dfecde] shadow-lg py-4 mt-20">
         <div className="px-4 md:px-8 w-full ">
           <Breadcrumb one="category" two={category} />
         </div>
       </div>
-      <div className="bg-[#fefaf3] ">
+      <div className="bg-[#dfecde] ">
         <div className="px-4 md:px-8  py-8">
           <div className="flex flex-wrap">
             <div className="w-full mt-5">

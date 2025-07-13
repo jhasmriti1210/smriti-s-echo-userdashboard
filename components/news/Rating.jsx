@@ -109,7 +109,7 @@ const RatingSection = ({ poetryId, initialRating, userRating }) => {
   return (
     <div className="w-full pb-8 mt-5">
       <div className="flex flex-col w-full gap-y-[14px]">
-        <h2 className="text-xl font-bold text-gray-700">Rate this Poetry</h2>
+        {/* <h2 className="text-xl font-bold text-white">Rate this Poetry</h2> */}
 
         {/* Star rating display */}
         <div className="flex items-center space-x-2">
@@ -119,7 +119,7 @@ const RatingSection = ({ poetryId, initialRating, userRating }) => {
               className={`cursor-pointer text-2xl transition-colors duration-200 ease-in-out ${
                 star <= (hoveredRating > 0 ? hoveredRating : rating)
                   ? "text-yellow-500"
-                  : "text-gray-300"
+                  : "text-gray-600"
               }`}
               onClick={() => setRating(star)}
               onMouseEnter={() => setHoveredRating(star)}
@@ -147,7 +147,7 @@ const RatingSection = ({ poetryId, initialRating, userRating }) => {
 
         {/* Display message if user already rated */}
         {hasRated && (
-          <div className="mt-2 text-sm text-green-500">
+          <div className="mt-2 text-sm text-green-800">
             You have already submitted a rating of {rating} stars.
           </div>
         )}

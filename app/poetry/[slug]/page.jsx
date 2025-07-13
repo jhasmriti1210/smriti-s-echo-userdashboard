@@ -12,13 +12,11 @@ import { toast } from "react-hot-toast";
 
 const Details = () => {
   const { slug } = useParams();
-
   const [poetry, setPoetry] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isFavorited, setIsFavorited] = useState(false);
   const [confirmRemove, setConfirmRemove] = useState(false);
 
-  // Fetch poetry details from API
   const fetchPoetryData = async () => {
     try {
       const res = await fetch(`${base_api_url}/api/poetry/details/${slug}`);
@@ -26,7 +24,7 @@ const Details = () => {
       const data = await res.json();
       setPoetry(data.poetry);
       setIsFavorited(Boolean(data.poetry?.isFavorited));
-      setConfirmRemove(false); // reset confirmation on new fetch
+      setConfirmRemove(false);
     } catch (error) {
       console.error("Error fetching poetry details:", error);
       toast.error("Failed to load poetry details.");
@@ -37,7 +35,6 @@ const Details = () => {
     if (slug) fetchPoetryData();
   }, [slug]);
 
-  // Toggle favorite status with confirmation for removal
   const toggleFavorite = async () => {
     const token = localStorage.getItem("authToken");
     if (!token) {
@@ -50,9 +47,8 @@ const Details = () => {
       return;
     }
 
-    if (loading) return; // Prevent multiple requests
+    if (loading) return;
 
-    // If already favorited and removal not confirmed, show confirm prompt
     if (isFavorited && !confirmRemove) {
       setConfirmRemove(true);
       return;
@@ -60,7 +56,6 @@ const Details = () => {
 
     try {
       setLoading(true);
-
       const res = await fetch(`${base_api_url}/api/favorites/${poetry._id}`, {
         method: "POST",
         headers: {
@@ -68,13 +63,6 @@ const Details = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-
-      if (!res.ok) {
-        const errorData = await res.json();
-        toast.error(errorData.message || "Failed to update favorite status.");
-        setLoading(false);
-        return;
-      }
 
       const data = await res.json();
 
@@ -86,7 +74,6 @@ const Details = () => {
             ? `"${poetry.title}" added to favorites`
             : `"${poetry.title}" removed from favorites`
         );
-        // Refresh poetry details to keep data in sync
         fetchPoetryData();
       } else {
         toast.error("Unexpected response from server.");
@@ -107,80 +94,68 @@ const Details = () => {
     );
 
   return (
-    <div className="mt-32">
-      <section className="bg-[#fefaf3] py-4 shadow-sm">
-        <div className="px-4 md:px-8">
+    <div className="mt-20">
+      {/* Breadcrumb */}
+      <section className="bg-[#dfecde] py-4 shadow-sm">
+        <div className="px-4 sm:px-6 lg:px-8">
           <Breadcrumb one={poetry.category} two={poetry.title} />
         </div>
       </section>
 
-      <main className="bg-slate-100 w-full py-8">
-        <div className="px-4 md:px-8 max-w-7xl mx-auto">
-          <div className="flex flex-wrap xl:flex-nowrap gap-8">
-            {/* Main Article */}
-            <article className="w-full xl:w-8/12">
+      {/* Main Content */}
+      <main className="bg-[#dfecde] py-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+            {/* Main Section */}
+            <article className="xl:col-span-2">
               <div className="bg-white rounded-xl p-6 shadow-md">
-                <div className="flex flex-col items-center gap-4">
+                <div className="flex flex-col items-center text-center gap-4">
                   <img
                     src={poetry.image}
-                    alt={poetry.title || "Poetry Image"}
-                    className="h-[180px] w-[180px] object-cover rounded-full border-4 border-[#4b2e2e]"
+                    alt={poetry.title}
+                    className="h-40 w-40 object-cover rounded-full border-4 border-[#4b2e2e]"
                   />
-                  <h3 className="text-[#4b2e2e] uppercase text-sm font-semibold tracking-widest">
+                  <h3 className="text-sm text-[#4b2e2e] uppercase font-semibold tracking-widest">
                     {poetry.category}
                   </h3>
-                  <h1 className="text-3xl font-bold text-center text-gray-800">
+                  <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
                     {poetry.title}
                   </h1>
-                  <div className="text-sm text-slate-500">
+                  <p className="text-sm text-slate-500">
                     {poetry.date} &bull; {poetry.writerName}
-                  </div>
+                  </p>
 
                   {/* Favorite Button */}
-                  <div className="relative mt-4">
-                    <button
-                      onClick={toggleFavorite}
-                      disabled={loading}
-                      className={`px-4 py-2 rounded-md font-semibold flex items-center justify-center gap-2 transition-colors duration-150 focus:outline-none ${
-                        isFavorited
-                          ? confirmRemove
-                            ? "bg-red-600 text-white hover:bg-red-700"
-                            : "bg-yellow-600 text-black hover:bg-yellow-700"
-                          : "bg-blue-600 text-white hover:bg-blue-700"
-                      }`}
-                      aria-label={
-                        isFavorited
-                          ? confirmRemove
-                            ? "Confirm remove from favorites"
-                            : "Remove from favorites"
-                          : "Add to favorites"
-                      }
-                      title={
-                        isFavorited
-                          ? confirmRemove
-                            ? "Click to confirm remove from favorites"
-                            : "Click to remove from favorites"
-                          : "Add to favorites"
-                      }
-                    >
-                      {loading
-                        ? "Processing..."
-                        : isFavorited
+                  <button
+                    onClick={toggleFavorite}
+                    disabled={loading}
+                    className={`w-full sm:w-auto px-6 py-2 mt-4 rounded-md font-medium transition duration-200 ${
+                      isFavorited
                         ? confirmRemove
-                          ? "Confirm Remove?"
-                          : "Remove from Favorites"
-                        : "Add to Favorites"}
-                    </button>
-                  </div>
+                          ? "bg-red-600 text-white hover:bg-red-700"
+                          : "bg-yellow-500 text-black hover:bg-yellow-600"
+                        : "bg-blue-600 text-white hover:bg-blue-700"
+                    }`}
+                  >
+                    {loading
+                      ? "Processing..."
+                      : isFavorited
+                      ? confirmRemove
+                        ? "Confirm Remove?"
+                        : "Remove from Favorites"
+                      : "Add to Favorites"}
+                  </button>
                 </div>
 
-                {/* Audio Section */}
-                <div className="mt-6 flex justify-center items-center">
-                  <AudioSection audio={poetry.audio} />
-                </div>
+                {/* Audio Player */}
+                {poetry.audio && (
+                  <div className="mt-6 flex justify-center">
+                    <AudioSection audio={poetry.audio} />
+                  </div>
+                )}
 
                 {/* Description */}
-                <div className="mt-6 prose prose-green max-w-none text-justify">
+                <div className="mt-6 text-gray-700 text-base leading-relaxed whitespace-pre-line">
                   {typeof poetry.description === "string"
                     ? parse(poetry.description)
                     : null}
@@ -189,23 +164,30 @@ const Details = () => {
             </article>
 
             {/* Sidebar */}
-            <aside className="w-full xl:w-4/12">
-              <div className="bg-[#4b2e2e] rounded-xl p-6 shadow-md space-y-6">
-                <div className="flex justify-center">
-                  <img
-                    src="/name.png"
-                    alt="Website Logo"
-                    className="h-16 w-auto"
+            <aside>
+              <div className="relative bg-white/10 backdrop-blur-lg rounded-2xl p-6 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] border border-white/20 ring-1 ring-white/10">
+                <div className="absolute -inset-px rounded-2xl bg-white/20 blur-[1.5px] opacity-30 pointer-events-none"></div>
+
+                <div className="relative z-10 space-y-6 text-gray-100">
+                  {/* Logo */}
+                  <div className="flex justify-center">
+                    <img
+                      src="/namesmall.png"
+                      alt="Logo"
+                      className="h-14 w-auto drop-shadow-[0_2px_4px_rgba(0,0,0,0.25)]"
+                    />
+                  </div>
+
+                  {/* Rating & Comments */}
+                  <RatingSection
+                    poetryId={poetry._id}
+                    initialRating={poetry.averageRating || 0}
+                  />
+                  <CommentSection
+                    poetryId={poetry._id}
+                    initialComments={poetry.comments || []}
                   />
                 </div>
-                <RatingSection
-                  poetryId={poetry._id}
-                  initialRating={poetry.averageRating || 0}
-                />
-                <CommentSection
-                  poetryId={poetry._id}
-                  initialComments={poetry.comments || []}
-                />
               </div>
             </aside>
           </div>

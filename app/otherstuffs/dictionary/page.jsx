@@ -142,7 +142,7 @@ const DictionaryPage = () => {
   };
 
   return (
-    <div className="mt-28 bg-[#fefaf3]">
+    <div className="mt-20 bg-[#dfecde]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-12 py-10 min-h-screen flex flex-col lg:flex-row gap-8 mt-6">
         {/* Left Side - Dictionary Section */}
         <div className="lg:w-2/3">
@@ -186,13 +186,11 @@ const DictionaryPage = () => {
               className="w-full md:w-1/4 p-4 border-2 border-gray-300 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-[#8C4F38]"
             >
               <option value="english">English</option>
-              <option value="hindi">Hindi</option>
-              <option value="urdu">Urdu</option>
             </select>
 
             <button
               onClick={handleSearch}
-              className="p-4 bg-[#8C4F38] text-white rounded-lg hover:bg-[#8C4F38] focus:ring-2 focus:ring-[#8C4F38] w-full md:w-auto"
+              className="p-4 bg-[#C1440E] hover:bg-[#a6370d] text-white rounded-lg  focus:ring-2 focus:ring-[#8C4F38] w-full md:w-auto"
             >
               <FaSearch />
             </button>
@@ -284,9 +282,6 @@ const DictionaryPage = () => {
           <blockquote className="border-l-4 border-green-600 pl-4 mb-6 text-gray-700 italic">
             {randomInspirationalLine}
             <br />
-            <span className="text-right block mt-2 font-medium text-green-800">
-              – Smriti Jha
-            </span>
           </blockquote>
 
           <div className="mt-4 bg-white p-4 rounded-md shadow-sm">
@@ -294,9 +289,17 @@ const DictionaryPage = () => {
               Inspirational Line:
             </h3>
             <p className="text-gray-600">
-              "हर लफ्ज़ में बस एक एहसास छुपा होता है, शायरी में वो बेनाम जज़्बात
-              लिखा होता है।"
+              यूँ ही नहीं उतरता कोई कविताओं में किसी की,
+              <br />
+              यूँ ही नहीं बसता कोई दुआओं में किसी की।
+              <br />
+              तुम जो गर गुज़रे हो, कुछ बात तो होगी,
+              <br />
+              कुछ बात न सही, मगर याद तो होगी।
             </p>
+            <span className="text-right block mt-2 font-medium text-green-800">
+              – Smriti Jha
+            </span>
           </div>
 
           <div className="mt-6 space-y-4">

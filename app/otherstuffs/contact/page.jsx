@@ -49,14 +49,14 @@ export default function Query() {
 
   return (
     <>
-      <section className="bg-[#fefaf3] text-black min-h-screen flex items-center justify-center px-6 py-12">
+      <section className="bg-[#dfecde] text-black min-h-screen flex items-center justify-center px-6 py-12">
         <div className="max-w-2xl w-full bg-white shadow-xl rounded-xl p-8 border border-[#E9D8C3]">
           <h2 className="group text-5xl text-center font-bold tracking-wide mb-12 relative z-10 transition-all duration-300 hover:italic before:content-[''] group-hover:before:content-['-'] group-hover:before:mr-2">
             Contact Us
           </h2>
 
           {status && (
-            <p className="text-center text-sm mb-4 font-medium text-[#7A3E2D] bg-[#F5EDE4] p-3 rounded-md shadow-sm">
+            <p className="text-center text-sm mb-4 font-medium text-[#3A6B35] bg-[#F5EDE4] p-3 rounded-md shadow-sm">
               {status}
             </p>
           )}
@@ -72,7 +72,7 @@ export default function Query() {
                   id="name"
                   name="name"
                   required
-                  className="w-full rounded-md bg-[#7A3E2D] text-[#F5EDE4] placeholder-[#F5EDE4]/70 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#8C4F38]"
+                  className="w-full rounded-md bg-[#3A6B35] text-[#F5EDE4] placeholder-[#F5EDE4]/70 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#3A6B35]"
                   placeholder="Your name"
                   value={formData.name}
                   onChange={handleInputChange}
@@ -88,7 +88,7 @@ export default function Query() {
                   id="email"
                   name="email"
                   required
-                  className="w-full rounded-md bg-[#7A3E2D] text-[#F5EDE4] placeholder-[#F5EDE4]/70 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#8C4F38]"
+                  className="w-full rounded-md bg-[#3A6B35] text-[#F5EDE4] placeholder-[#F5EDE4]/70 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#3A6B35]"
                   placeholder="Your email"
                   value={formData.email}
                   onChange={handleInputChange}
@@ -105,7 +105,7 @@ export default function Query() {
                 name="message"
                 required
                 rows="5"
-                className="w-full rounded-md bg-[#7A3E2D] text-[#F5EDE4] placeholder-[#F5EDE4]/70 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#8C4F38]"
+                className="w-full rounded-md bg-[#3A6B35] text-[#F5EDE4] placeholder-[#F5EDE4]/70 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#3A6B35]"
                 placeholder="Your message"
                 value={formData.message}
                 onChange={handleInputChange}
@@ -114,7 +114,7 @@ export default function Query() {
 
             <button
               type="submit"
-              className="w-full bg-[#F5EDE4] text-[#8C4F38] font-bold py-2 rounded-md uppercase tracking-wide transition duration-300 hover:opacity-90 hover:shadow-md"
+              className="w-full bg-[#e7ede6] text-[#3A6B35] font-bold py-2 rounded-md uppercase tracking-wide transition duration-300 hover:opacity-90 hover:shadow-md"
             >
               Send Message
             </button>

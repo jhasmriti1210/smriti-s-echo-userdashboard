@@ -1,11 +1,23 @@
-import { FaUser, FaUserEdit, FaStar } from "react-icons/fa";
+import { FaUser, FaUserEdit, FaStar, FaTimes } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 
-const Sidebar = () => {
+const Sidebar = ({ closeSidebar }) => {
   const router = useRouter();
 
+  const navigate = (path) => {
+    router.push(path);
+    if (closeSidebar) closeSidebar(); // Close sidebar on mobile
+  };
+
   return (
-    <aside className="h-screen w-72 bg-white shadow-xl p-6 flex flex-col justify-between">
+    <aside className="h-full w-64 bg-white shadow-xl p-6 flex flex-col justify-between">
+      {/* Close Button for mobile */}
+      <div className="md:hidden flex justify-end mb-4">
+        <button onClick={closeSidebar}>
+          <FaTimes className="text-2xl text-gray-700" />
+        </button>
+      </div>
+
       {/* Top Logo */}
       <div>
         <div className="flex items-center space-x-2 mb-10">
@@ -18,7 +30,7 @@ const Sidebar = () => {
         {/* Navigation Buttons */}
         <nav className="space-y-6">
           <button
-            onClick={() => router.push("/loginstuff/dashboardpage/userprofile")}
+            onClick={() => navigate("/loginstuff/dashboardpage/userprofile")}
             className="flex items-center space-x-3 text-gray-700 hover:text-blue-600 font-medium"
           >
             <FaUser className="text-xl" />
@@ -26,9 +38,7 @@ const Sidebar = () => {
           </button>
 
           <button
-            onClick={() =>
-              router.push("/loginstuff/dashboardpage/updateprofile")
-            }
+            onClick={() => navigate("/loginstuff/dashboardpage/updateprofile")}
             className="flex items-center space-x-3 text-gray-700 hover:text-blue-600 font-medium"
           >
             <FaUserEdit className="text-xl" />
@@ -37,7 +47,7 @@ const Sidebar = () => {
 
           <button
             onClick={() =>
-              router.push("/loginstuff/dashboardpage/favouritepoetry")
+              navigate("/loginstuff/dashboardpage/favouritepoetry")
             }
             className="flex items-center space-x-3 text-gray-700 hover:text-blue-600 font-medium"
           >

@@ -135,7 +135,7 @@ const Footer = () => {
             </h1>
             <div className="flex gap-4 text-gray-200 justify-center md:justify-start">
               <a
-                href="https://instagram.com/sjhapoetry"
+                href="https://instagram.com/erin.nerte"
                 target="_blank"
                 className="hover:text-white"
               >

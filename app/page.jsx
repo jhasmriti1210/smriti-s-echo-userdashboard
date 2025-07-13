@@ -55,7 +55,7 @@ export default function Home() {
         </div>
       </section>
       {/* About Section */}
-      <section className="relative bg-[#fefaf3] dark:bg-gray-900 py-16 px-4 sm:px-6 overflow-hidden">
+      <section className="relative bg-[#dfecde] dark:bg-gray-900 py-16 px-4 sm:px-6 overflow-hidden">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center md:items-start gap-y-10 md:gap-x-10 relative z-10">
           {/* Heading (mobile only) */}
           <h2 className="text-3xl sm:text-4xl font-semibold mb-4 text-center md:hidden order-1">

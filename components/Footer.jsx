@@ -196,13 +196,11 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/dictionary" className="hover:underline">
+                <Link
+                  href="/otherstuffs/dictionary"
+                  className="hover:underline"
+                >
                   Dictionary
-                </Link>
-              </li>
-              <li>
-                <Link href="/submit-poetry" className="hover:underline">
-                  Smriti's Muse
                 </Link>
               </li>
             </ul>

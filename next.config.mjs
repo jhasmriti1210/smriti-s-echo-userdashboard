@@ -1,7 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ['cdn-icons-png.flaticon.com'],
+        domains: ['cdn-icons-png.flaticon.com', 'res.cloudinary.com'],
+        unoptimized: process.env.NODE_ENV === 'development',
         remotePatterns: [
             {
                 protocol: 'https',
@@ -12,9 +13,14 @@ const nextConfig = {
                 protocol: 'http',
                 hostname: 'res.cloudinary.com',
                 pathname: '/**',
-            },
-
+            }
         ],
+    },
+    async redirects() {
+        return [];
+    },
+    async rewrites() {
+        return [];
     },
 };
 

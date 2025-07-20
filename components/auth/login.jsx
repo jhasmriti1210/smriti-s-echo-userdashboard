@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { base_api_url } from "@/config/Config";
-import { useAuth } from "../../context/authContext";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -15,142 +14,105 @@ const Auth = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const [profileImage, setProfileImage] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const fileInputRef = useRef(null);
   const router = useRouter();
-  const { login } = useAuth();
-
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const response = urlParams.get("response");
-
-    if (response) {
-      try {
-        const parsedResponse = JSON.parse(decodeURIComponent(response));
-        if (parsedResponse.success && parsedResponse.token) {
-          localStorage.setItem("authToken", parsedResponse.token);
-          localStorage.setItem("user", JSON.stringify(parsedResponse.user));
-          router.push("/"); // Redirect to the home page or dashboard
-        } else {
-          console.error("Google login failed: ", parsedResponse.message);
-        }
-      } catch (error) {
-        console.error("Error parsing Google login response: ", error);
-      }
-    }
-  }, [router]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage("");
     setSuccessMessage("");
-    setLoading(true);
 
     if (isLogin) {
-      // Handle login
       try {
         const response = await fetch(`${base_api_url}/api/user-login`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password }),
         });
-        const data = await response.json();
 
+        const data = await response.json();
         if (data.success) {
+          setSuccessMessage("Login successful!");
+          // 👇 Save user info to localStorage
           const userData = {
             name: data.data?.user?.fullName || "User",
             email: data.data?.user?.email || email,
-            profilePicture: data.data?.user?.profilePicture || null,
           };
-          localStorage.setItem("user", JSON.stringify(userData));
-          localStorage.setItem("authToken", data.token);
-          setProfileImage(userData.profilePicture);
 
-          setSuccessMessage("Login successful!");
-          login(userData, data.token);
+          localStorage.setItem("user", JSON.stringify(userData));
+          // 👇 ADD THIS LINE to save token
+          localStorage.setItem("authToken", data.token);
+
           router.push("/");
         } else {
           setErrorMessage(data.message || "Login failed. Please try again.");
         }
       } catch (error) {
         setErrorMessage("Error logging in: " + error.message);
-      } finally {
-        setLoading(false);
       }
     } else {
-      // Handle signup
       if (password !== confirmPassword) {
         setErrorMessage("Passwords do not match.");
-        setLoading(false);
         return;
       }
 
       try {
-        const formData = new FormData();
-        formData.append("fullName", fullName);
-        formData.append("email", email);
-        formData.append("password", password);
+        const checkResponse = await fetch(`${base_api_url}/api/check-user`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        });
 
-        if (fileInputRef.current?.files[0]) {
-          formData.append("profilePicture", fileInputRef.current.files[0]); // ✅ Attach profile picture
+        const checkData = await checkResponse.json();
+
+        if (checkData.exists) {
+          setErrorMessage("User already exists! Please try logging in.");
+          return;
         }
 
         const signupResponse = await fetch(`${base_api_url}/api/user-signup`, {
           method: "POST",
-          body: formData,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ fullName, email, password }),
         });
-        const signupData = await signupResponse.json();
 
-        if (signupData.success) {
+        const data = await signupResponse.json();
+        if (data.success) {
           setSuccessMessage(
-            "Account created successfully! Please verify your email before logging in."
+            "Account created successfully! Redirecting to login..."
           );
-
           setTimeout(() => {
-            setIsLogin(true); // Switch to login mode
+            setIsLogin(true);
             setFullName("");
-            setEmail("");
             setPassword("");
             setConfirmPassword("");
-            setProfileImage(null);
-          }, 2500); // Wait before switching to login
+            setSuccessMessage("");
+          }, 1500);
         } else {
-          setErrorMessage(
-            signupData.message || "Signup failed. Please try again."
-          );
+          setErrorMessage(data.message || "Signup failed. Please try again.");
         }
       } catch (error) {
         setErrorMessage("Error signing up: " + error.message);
-      } finally {
-        setLoading(false);
       }
     }
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfileImage(reader.result); // Update profile image preview
-      };
-      reader.readAsDataURL(file);
-    }
+  const handleGoogleLogin = () => {
+    window.location.href = `${base_api_url}/auth/google`;
   };
 
-  const triggerFileInput = () => {
-    fileInputRef.current?.click();
-  };
-
+  {
+  }
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#fefaf3] ">
-      <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md mt-32">
-        {/* Logo */}
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-yellow-100 to-green-600">
+      <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
+        {/* Logo added here */}
         <div className="flex justify-center mb-6">
-          <img src="/logo.png" alt="Logo" className="h-32" />
+          <img
+            src="logo.png" // Replace with your logo's path
+            alt="Smriti's Echoes Logo"
+            className="h-32" // You can adjust the height of the logo here
+          />
         </div>
-
         <h2 className="text-2xl font-bold mb-6 text-center text-green-800">
           {isLogin ? "Login to your Account" : "Create an Account"}
         </h2>
@@ -165,37 +127,6 @@ const Auth = () => {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Avatar upload */}
-          {!isLogin && (
-            <div className="flex flex-col items-center space-y-2 mb-4">
-              <div
-                className="w-24 h-24 rounded-full bg-gray-200 overflow-hidden cursor-pointer hover:opacity-80"
-                onClick={triggerFileInput}
-              >
-                {profileImage ? (
-                  <img
-                    src={profileImage}
-                    alt="Profile"
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-gray-500 text-3xl">
-                    +
-                  </div>
-                )}
-              </div>
-              <input
-                type="file"
-                ref={fileInputRef}
-                onChange={handleImageChange}
-                accept="image/*"
-                className="hidden"
-              />
-              <p className="text-sm text-gray-500">Upload Profile Picture</p>
-            </div>
-          )}
-
-          {/* Full Name */}
           {!isLogin && (
             <input
               type="text"
@@ -207,7 +138,6 @@ const Auth = () => {
             />
           )}
 
-          {/* Email */}
           <input
             type="email"
             placeholder="Email"
@@ -217,7 +147,7 @@ const Auth = () => {
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
           />
 
-          {/* Password */}
+          {/* Password Input */}
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
@@ -235,7 +165,7 @@ const Auth = () => {
             </span>
           </div>
 
-          {/* Confirm Password */}
+          {/* Confirm Password for Signup */}
           {!isLogin && (
             <div className="relative">
               <input
@@ -255,28 +185,52 @@ const Auth = () => {
             </div>
           )}
 
-          {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-green-800 text-white py-2 rounded-md hover:bg-green-700 transition duration-300 disabled:opacity-50"
-            disabled={loading}
+            className="w-full bg-green-800 text-white py-2 rounded-md hover:bg-green-700 transition duration-300"
           >
-            {loading
-              ? isLogin
-                ? "Logging in..."
-                : "Signing up..."
-              : isLogin
-              ? "Login"
-              : "Sign Up"}
+            {isLogin ? "Login" : "Sign Up"}
           </button>
         </form>
 
-        {/* Switch */}
+        {/* --- GOOGLE LOGIN BUTTON --- */}
+        <div className="mt-6 flex flex-col items-center">
+          <p className="text-gray-500 mb-2">or continue with</p>
+          <button
+            onClick={handleGoogleLogin}
+            className="flex items-center justify-center gap-2 bg-blue-800  text-white px-4 py-2 rounded-md transition duration-300"
+          >
+            <svg
+              className="w-5 h-5"
+              viewBox="0 0 533.5 544.3"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M533.5 278.4c0-17.7-1.5-35-4.3-51.6H272v97.6h146.9c-6.4 34.5-25.5 63.7-54.5 83.2v68h88c51.5-47.5 80.6-117.5 80.6-197.2z"
+                fill="#4285f4"
+              />
+              <path
+                d="M272 544.3c73.7 0 135.6-24.5 180.8-66.7l-88-68c-24.5 16.5-55.7 26.1-92.7 26.1-71 0-131.2-47.9-152.7-112.3H29.5v70.6C74.2 475.5 165.6 544.3 272 544.3z"
+                fill="#34a853"
+              />
+              <path
+                d="M119.3 323.4c-10.1-29.5-10.1-61.2 0-90.7v-70.7H29.5c-41.8 82.7-41.8 179.3 0 262z"
+                fill="#fbbc04"
+              />
+              <path
+                d="M272 107.7c39.9 0 75.8 13.7 104.1 40.7l78.1-78.1C407.7 24.8 345.8 0 272 0 165.6 0 74.2 68.8 29.5 172.6l89.8 70.6C140.8 155.6 201 107.7 272 107.7z"
+                fill="#ea4335"
+              />
+            </svg>
+            Login with Google
+          </button>
+        </div>
+
         <p className="text-center mt-4 text-sm text-gray-600">
           {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
           <span
-            onClick={() => setIsLogin(!isLogin)}
             className="text-blue-700 cursor-pointer hover:underline"
+            onClick={() => setIsLogin(!isLogin)}
           >
             {isLogin ? "Sign up" : "Login"}
           </span>

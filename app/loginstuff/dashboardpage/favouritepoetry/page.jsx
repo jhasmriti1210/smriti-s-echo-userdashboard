@@ -10,7 +10,7 @@ const FavoritePoems = () => {
   const [favorites, setFavorites] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [deletingId, setDeletingId] = useState(null); // track which poem is being deleted
+  const [deletingId, setDeletingId] = useState(null);
 
   useEffect(() => {
     const fetchFavorites = async () => {

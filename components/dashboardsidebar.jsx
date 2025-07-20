@@ -6,19 +6,19 @@ const Sidebar = ({ closeSidebar }) => {
 
   const navigate = (path) => {
     router.push(path);
-    if (closeSidebar) closeSidebar(); // Close sidebar on mobile
+    if (closeSidebar) closeSidebar();
   };
 
   return (
-    <aside className="h-full w-64 bg-white shadow-xl p-6 flex flex-col justify-between">
-      {/* Close Button for mobile */}
+    <div className="min-h-screen w-64 bg-white p-6 flex flex-col shadow-xl md:shadow-none">
+      {/* Close button for mobile */}
       <div className="md:hidden flex justify-end mb-4">
         <button onClick={closeSidebar}>
           <FaTimes className="text-2xl text-gray-700" />
         </button>
       </div>
 
-      {/* Top Logo */}
+      {/* Brand */}
       <div>
         <div className="flex items-center space-x-2 mb-10">
           <div className="bg-black text-white rounded-full w-8 h-8 flex items-center justify-center font-bold">
@@ -27,7 +27,7 @@ const Sidebar = ({ closeSidebar }) => {
           <h1 className="text-xl font-bold">SMRITI JHA</h1>
         </div>
 
-        {/* Navigation Buttons */}
+        {/* Links */}
         <nav className="space-y-6">
           <button
             onClick={() => navigate("/loginstuff/dashboardpage/userprofile")}
@@ -56,7 +56,7 @@ const Sidebar = ({ closeSidebar }) => {
           </button>
         </nav>
       </div>
-    </aside>
+    </div>
   );
 };
 

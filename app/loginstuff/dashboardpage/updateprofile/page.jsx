@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Sidebar from "@/components/dashboardsidebar";
 import Footer from "@/components/Footer";
+import { base_api_url } from "@/config/Config";
 
 export default function DashboardPage() {
   const [user, setUser] = useState(null);
@@ -14,13 +15,12 @@ export default function DashboardPage() {
   });
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     const fetchProfile = async () => {
-      if (typeof window === "undefined") return;
-
-      const token = localStorage.getItem("authToken");
-
+      const token =
+        typeof window !== "undefined" && localStorage.getItem("authToken");
       if (!token) {
         setMessage("⚠️ No token found. Please log in again.");
         setLoading(false);
@@ -28,21 +28,18 @@ export default function DashboardPage() {
       }
 
       try {
-        const res = await fetch(
-          "https://smriti-s-echo-admin.onrender.com/api/user-profile",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const res = await fetch(`${base_api_url}/api/user-profile`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         const data = await res.json();
         if (data.success) {
           setUser(data.data);
           setFormData((prev) => ({
             ...prev,
-            fullName: data.data?.fullName || "User",
+            fullName: data.data?.fullName || "",
             email: data.data?.email || "",
             profilePicture: data.data?.profilePicture || null,
           }));
@@ -83,20 +80,18 @@ export default function DashboardPage() {
     form.append("fullName", formData.fullName);
     form.append("email", formData.email);
     if (formData.password) form.append("password", formData.password);
-    if (formData.profilePicture)
+    if (formData.profilePicture) {
       form.append("profilePicture", formData.profilePicture);
+    }
 
     try {
-      const res = await fetch(
-        "https://smriti-s-echo-admin.onrender.com/api/update-profile",
-        {
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: form,
-        }
-      );
+      const res = await fetch(`${base_api_url}/api/update-profile`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: form,
+      });
 
       const data = await res.json();
       if (data.success) {
@@ -116,24 +111,29 @@ export default function DashboardPage() {
 
   return (
     <>
-      <div className="flex min-h-screen mt-24 bg-gray-100">
-        <aside className="w-full md:w-1/4 lg:w-1/5  h-full ">
-          <Sidebar />
+      <div className="flex flex-col md:flex-row min-h-screen bg-gray-100 pt-20">
+        {/* Sidebar */}
+        <aside
+          className={`fixed top-20 left-0 h-[calc(100%-5rem)] w-64 bg-white z-50 shadow-lg transform transition-transform duration-300 md:relative md:translate-x-0 md:top-0 md:h-auto ${
+            sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
+          <Sidebar closeSidebar={() => setSidebarOpen(false)} />
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 p-8 bg-gray-100">
+        <main className="flex-1 px-4 sm:px-6 md:px-8 py-8">
           <h1 className="text-3xl font-bold text-center mb-8">Dashboard</h1>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* LEFT: Profile Info */}
             <div className="bg-white p-6 rounded-lg shadow">
-              <div className="flex justify-center mb-4 mt-6">
+              <div className="flex justify-center mb-4 mt-4">
                 {user?.profilePicture && (
                   <img
                     src={user.profilePicture}
                     alt="Profile"
-                    className="w-32 h-32 rounded-full border-amber-950 object-cover shadow"
+                    className="w-32 h-32 rounded-full object-cover border shadow"
                   />
                 )}
               </div>
@@ -195,7 +195,7 @@ export default function DashboardPage() {
               </form>
 
               {message && (
-                <p className="text-center text-sm text-gray-700 mt-2">
+                <p className="text-center text-sm text-gray-700 mt-3">
                   {message}
                 </p>
               )}
@@ -203,6 +203,7 @@ export default function DashboardPage() {
           </div>
         </main>
       </div>
+
       <Footer />
     </>
   );

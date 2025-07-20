@@ -1,57 +1,33 @@
 "use client";
-
 import React, { useState, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import Breadcrumb from "@/components/BreadCrumb";
 import Footer from "@/components/Footer";
 import parse from "html-react-parser";
-import Image from "next/image";
 import { base_api_url } from "@/config/Config";
 import RatingSection from "@/components/news/Rating";
 import CommentSection from "@/components/news/Comment";
 import AudioSection from "@/components/audioSection";
 import { toast } from "react-hot-toast";
-import { notFound } from "next/navigation";
 
 const Details = () => {
   const { slug } = useParams();
-  const router = useRouter();
   const [poetry, setPoetry] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [isFavorited, setIsFavorited] = useState(false);
   const [confirmRemove, setConfirmRemove] = useState(false);
-  const [error, setError] = useState(null);
 
   const fetchPoetryData = async () => {
     try {
-      setLoading(true);
-      setError(null);
-      const res = await fetch(
-        `${base_api_url}/api/poetry/details/${encodeURIComponent(slug)}`
-      );
-      if (!res.ok) {
-        if (res.status === 404) {
-          router.push("/");
-          return;
-        }
-        throw new Error("Failed to fetch poetry data");
-      }
+      const res = await fetch(`${base_api_url}/api/poetry/details/${slug}`);
+      if (!res.ok) throw new Error("Failed to fetch poetry data");
       const data = await res.json();
-      if (!data.poetry) {
-        throw new Error("Poetry not found");
-      }
       setPoetry(data.poetry);
       setIsFavorited(Boolean(data.poetry?.isFavorited));
       setConfirmRemove(false);
     } catch (error) {
       console.error("Error fetching poetry details:", error);
-      setError(error.message);
       toast.error("Failed to load poetry details.");
-      if (error.message === "Poetry not found") {
-        router.push("/");
-      }
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -110,23 +86,12 @@ const Details = () => {
     }
   };
 
-  if (loading) {
+  if (!poetry)
     return (
       <div className="mt-32 text-center text-gray-600 font-medium">
         Loading...
       </div>
     );
-  }
-
-  if (error) {
-    return (
-      <div className="mt-32 text-center text-red-600 font-medium">{error}</div>
-    );
-  }
-
-  if (!poetry) {
-    return null;
-  }
 
   return (
     <div className="mt-20">
@@ -145,13 +110,10 @@ const Details = () => {
             <article className="xl:col-span-2">
               <div className="bg-white rounded-xl p-6 shadow-md">
                 <div className="flex flex-col items-center text-center gap-4">
-                  <Image
+                  <img
                     src={poetry.image}
                     alt={poetry.title}
-                    width={160}
-                    height={160}
                     className="h-40 w-40 object-cover rounded-full border-4 border-[#4b2e2e]"
-                    priority
                   />
                   <h3 className="text-sm text-[#4b2e2e] uppercase font-semibold tracking-widest">
                     {poetry.category}
@@ -209,11 +171,9 @@ const Details = () => {
                 <div className="relative z-10 space-y-6 text-gray-100">
                   {/* Logo */}
                   <div className="flex justify-center">
-                    <Image
+                    <img
                       src="/namesmall.png"
                       alt="Logo"
-                      width={56}
-                      height={56}
                       className="h-14 w-auto drop-shadow-[0_2px_4px_rgba(0,0,0,0.25)]"
                     />
                   </div>

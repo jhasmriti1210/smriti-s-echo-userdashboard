@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Breadcrumb from "@/components/BreadCrumb";
 import Footer from "@/components/Footer";
@@ -26,7 +26,9 @@ const Details = () => {
     try {
       setLoading(true);
       setError(null);
-      const res = await fetch(`${base_api_url}/api/poetry/details/${slug}`);
+      const res = await fetch(
+        `${base_api_url}/api/poetry/details/${encodeURIComponent(slug)}`
+      );
       if (!res.ok) {
         if (res.status === 404) {
           router.push("/");

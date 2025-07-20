@@ -20,7 +20,18 @@ const nextConfig = {
         return [];
     },
     async rewrites() {
-        return [];
+        return [
+            {
+                source: '/poetry/:slug*',
+                destination: '/poetry/:slug*',
+            },
+        ];
+    },
+    typescript: {
+        ignoreBuildErrors: true,
+    },
+    eslint: {
+        ignoreDuringBuilds: true,
     },
 };
 

@@ -1,5 +1,6 @@
 "use client";
-import React, { useState, useEffect } from "react";
+
+import React, { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Breadcrumb from "@/components/BreadCrumb";
 import Footer from "@/components/Footer";
@@ -10,6 +11,7 @@ import RatingSection from "@/components/news/Rating";
 import CommentSection from "@/components/news/Comment";
 import AudioSection from "@/components/audioSection";
 import { toast } from "react-hot-toast";
+import { notFound } from "next/navigation";
 
 const Details = () => {
   const { slug } = useParams();

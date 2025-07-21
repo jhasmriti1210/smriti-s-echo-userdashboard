@@ -1,4 +1,5 @@
 // pages/index.jsx
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Footer from "../components/Footer";
 import Image from "next/image";
@@ -6,6 +7,27 @@ import FeaturedPoems from "../components/news/items/FeaturedPoems";
 import RecentPoetry from "@/components/news/RecentPoetry";
 
 export default function Home() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setLoading(false);
+    }, 2000); // Adjust delay if needed
+
+    return () => clearTimeout(timeout);
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-black text-white text-xl font-semibold">
+        <div className="animate-pulse text-center">
+          <p>Smriti's Poetry is Warming Up...</p>
+          <p className="text-sm mt-2 text-gray-300">Just a few seconds 💫</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <main className="min-h-screen bg-[#fefaf3] dark:bg-gray-900 text-gray-800 dark:text-white transition duration-300 ease-in-out">
       {/* Hero Section */}

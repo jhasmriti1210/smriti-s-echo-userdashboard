@@ -4,8 +4,11 @@ import { useEffect, useState } from "react";
 import Sidebar from "@/components/dashboardsidebar";
 import Footer from "@/components/Footer";
 import { base_api_url } from "@/config/Config";
+import { useRouter } from "next/navigation";
+import { FaArrowLeft, FaUser, FaHeart } from "react-icons/fa";
 
 export default function DashboardPage() {
+  const router = useRouter();
   const [user, setUser] = useState(null);
   const [formData, setFormData] = useState({
     fullName: "",
@@ -16,6 +19,16 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkIfMobile();
+    window.addEventListener("resize", checkIfMobile);
+    return () => window.removeEventListener("resize", checkIfMobile);
+  }, []);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -111,10 +124,40 @@ export default function DashboardPage() {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row min-h-screen bg-gray-100 pt-20">
+      {/* Mobile Navigation Header */}
+      <div className="md:hidden fixed top-20 left-0 right-0 bg-white z-50 border-b shadow-sm">
+        <div className="flex items-center justify-between p-4">
+          <button
+            onClick={() => router.back()}
+            className="flex items-center text-gray-600 hover:text-gray-900"
+          >
+            <FaArrowLeft className="mr-2" /> Back
+          </button>
+          <div className="flex gap-4">
+            <button
+              onClick={() =>
+                router.push("/loginstuff/dashboardpage/userprofile")
+              }
+              className="flex items-center text-blue-600 hover:text-blue-800"
+            >
+              <FaUser className="mr-1" /> Profile
+            </button>
+            <button
+              onClick={() =>
+                router.push("/loginstuff/dashboardpage/favouritepoetry")
+              }
+              className="flex items-center text-green-600 hover:text-green-800"
+            >
+              <FaHeart className="mr-1" /> Favorites
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex flex-col md:flex-row min-h-screen bg-gray-100 pt-20 md:pt-20">
         {/* Sidebar */}
         <aside
-          className={`fixed top-20 left-0 h-[calc(100%-5rem)] w-64 bg-white z-50 shadow-lg transform transition-transform duration-300 md:relative md:translate-x-0 md:top-0 md:h-auto ${
+          className={`fixed top-20 left-0 h-[calc(100%-5rem)] w-64 bg-white z-40 shadow-lg transform transition-transform duration-300 md:relative md:translate-x-0 md:top-0 md:h-auto ${
             sidebarOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
@@ -122,8 +165,10 @@ export default function DashboardPage() {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 px-4 sm:px-6 md:px-8 py-8">
-          <h1 className="text-3xl font-bold text-center mb-8">Dashboard</h1>
+        <main className="flex-1 px-4 sm:px-6 md:px-8 py-8 mt-16 md:mt-0">
+          <h1 className="text-3xl font-bold text-center mb-8">
+            Update Profile
+          </h1>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* LEFT: Profile Info */}

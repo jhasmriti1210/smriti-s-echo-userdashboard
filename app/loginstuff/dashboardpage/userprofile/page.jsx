@@ -24,13 +24,10 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100">
-      {/* Add space for top nav on small screens if needed */}
-      <div className="h-16 md:h-0"></div>
-
+    <div className="flex flex-col min-h-screen bg-gray-100 pt-20">
       <div className="flex flex-col md:flex-row flex-1 w-full">
-        {/* Sidebar */}
-        <aside className="w-full md:w-1/4 lg:w-1/5">
+        {/* Sidebar - Only visible on md and larger screens */}
+        <aside className="hidden md:block md:w-1/4 lg:w-1/5">
           <Sidebar />
         </aside>
 
@@ -60,6 +57,27 @@ const Dashboard = () => {
             </div>
           </div>
         </main>
+      </div>
+      {/* Quick Actions for Mobile */}
+      <div className="md:hidden bg-white shadow-sm mb-4 p-4">
+        <div className="flex justify-around gap-4">
+          <button
+            onClick={() =>
+              handleNavigate("/loginstuff/dashboardpage/updateprofile")
+            }
+            className="flex-1 bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
+          >
+            Update Profile
+          </button>
+          <button
+            onClick={() =>
+              handleNavigate("/loginstuff/dashboardpage/favouritepoetry")
+            }
+            className="flex-1 bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
+          >
+            Favorite Poems
+          </button>
+        </div>
       </div>
 
       {/* Footer */}

@@ -93,6 +93,16 @@ const FavoritePoems = () => {
       const data = await res.json();
       setFavorites(data.favorites || []);
       setError(null);
+
+      // Update favorites status in localStorage to trigger update in other tabs/pages
+      localStorage.setItem("favoritesUpdated", Date.now().toString());
+      // Dispatch storage event for the current window
+      window.dispatchEvent(
+        new StorageEvent("storage", {
+          key: "favoritesUpdated",
+          newValue: Date.now().toString(),
+        })
+      );
     } catch (err) {
       setError(err.message);
     } finally {

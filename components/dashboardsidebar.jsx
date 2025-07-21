@@ -10,7 +10,7 @@ const Sidebar = ({ closeSidebar }) => {
   };
 
   return (
-    <div className="min-h-screen w-64 bg-white p-6 flex flex-col shadow-xl md:shadow-none">
+    <div className=" hidden md:flex min-h-screen w-64 bg-white p-6  flex-col shadow-xl md:shadow-none mt-">
       {/* Close button for mobile */}
       <div className="md:hidden flex justify-end mb-4">
         <button onClick={closeSidebar}>

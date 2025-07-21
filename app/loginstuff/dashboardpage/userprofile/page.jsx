@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import Footer from "@/components/Footer";
-import Sidebar from "@/components/dashboardsidebar"; // Add your sidebar here
+import Sidebar from "@/components/dashboardsidebar";
 
 const Dashboard = () => {
   const router = useRouter();
@@ -25,30 +25,36 @@ const Dashboard = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
-      <div className="flex flex-1 mt-24">
-        <aside className="w-full md:w-1/4 lg:w-1/5 h-full">
+      {/* Add space for top nav on small screens if needed */}
+      <div className="h-16 md:h-0"></div>
+
+      <div className="flex flex-col md:flex-row flex-1 w-full">
+        {/* Sidebar */}
+        <aside className="w-full md:w-1/4 lg:w-1/5">
           <Sidebar />
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 p-8 bg-gray-100">
-          <h1 className="text-3xl font-bold text-center mb-8">Dashboard</h1>
+        <main className="flex-1 px-4 sm:px-6 md:px-8 py-6 md:mt-28">
+          <h1 className="text-2xl sm:text-3xl font-bold text-center mb-6 ">
+            Your Profile
+          </h1>
 
-          <div className="grid grid-cols-1 gap-8">
+          <div className="grid grid-cols-1 gap-6">
             <div className="bg-white p-6 rounded-lg shadow">
-              <div className="flex justify-center mb-4 mt-6">
+              <div className="flex justify-center mb-4">
                 {user?.profilePicture && (
                   <img
                     src={user.profilePicture}
                     alt="Profile"
-                    className="w-32 h-32 rounded-full border-amber-950 object-cover shadow"
+                    className="w-24 h-24 sm:w-32 sm:h-32 rounded-full border border-amber-950 object-cover shadow"
                   />
                 )}
               </div>
-              <p className="text-center text-lg">
+              <p className="text-center text-base sm:text-lg">
                 <strong>Name:</strong> {user?.name}
               </p>
-              <p className="text-center text-lg">
+              <p className="text-center text-base sm:text-lg">
                 <strong>Email:</strong> {user?.email}
               </p>
             </div>
@@ -56,7 +62,7 @@ const Dashboard = () => {
         </main>
       </div>
 
-      {/* Footer sticks at bottom */}
+      {/* Footer */}
       <Footer />
     </div>
   );

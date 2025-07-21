@@ -168,20 +168,6 @@ export default function Home() {
           </p>
           <div className="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 shadow-xl rounded-2xl p-6 sm:p-8 transition-transform duration-300 hover:scale-[1.01]">
             <div className="flex items-start gap-3 mb-4">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-7 w-7 text-amber-700 dark:text-amber-400"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.5}
-                  d="M9 13h6m2 6H7a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2z"
-                />
-              </svg>
               <div className="text-left w-full">
                 <FeaturedPoems />
               </div>

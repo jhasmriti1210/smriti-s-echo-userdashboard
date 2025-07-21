@@ -31,7 +31,7 @@ const FeaturedPoems = () => {
   }, []);
 
   return (
-    <section className="w-full  py-6 px-4 md:px-8 lg:px-16">
+    <section className="w-full py-6 px-4 md:px-8 lg:px-16">
       {error && <p className="text-red-600 text-center mb-4">{error}</p>}
 
       <div className="grid grid-cols-1 gap-8">
@@ -42,17 +42,17 @@ const FeaturedPoems = () => {
               return (
                 <div
                   key={poem._id}
-                  className=" rounded-xl   transition duration-300 p-4"
+                  className="rounded-xl transition duration-300 p-4"
                 >
                   <img
                     src={imageSrc}
                     alt={poem.title}
-                    className="w-full h-[100vh] object-contain rounded-md mb-4"
+                    className="w-full h-[300px] sm:h-[500px] md:h-[500px] lg:h-[100vh] object-contain rounded-md mb-4"
                   />
-                  <div className="flex flex-col gap-y-1">
+                  <div className="flex flex-col gap-y-1 text-center">
                     <Link
                       href={`/poetry/category/${poem?.category}`}
-                      className="text-sm font-medium text-green-600 hover:text-green-800"
+                      className="text-2xl font-medium text-green-600 hover:text-green-800"
                     >
                       {poem?.category}
                     </Link>

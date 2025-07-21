@@ -69,6 +69,13 @@ const AboutPage = () => {
             Writing code teaches me discipline, precision, and problem-solving —
             while poetry grants me freedom, reflection, and emotional clarity.
           </p>
+          <p className="text-lg leading-relaxed mb-4">
+            I started writing poetry as a reflection of someone else's affection
+            — what began as an echo of their presence slowly became a voice of
+            my own. Over time, that affection turned into inspiration, and the
+            words that once belonged to someone else became the way I found
+            myself.
+          </p>
 
           <p className="text-lg leading-relaxed mb-4">
             My journey began with curiosity — about how machines think and how

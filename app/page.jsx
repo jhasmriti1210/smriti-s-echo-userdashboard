@@ -102,23 +102,16 @@ export default function Home() {
               About Me
             </h2>
 
-            <p className="text-gray-700 dark:text-gray-300 mb-6 text-base leading-relaxed text-left">
-              I'm Smriti, a poet by soul and a Software developer by profession.
-              Through poetry, I explore emotions, love, loss, and everything in
-              between, giving voice to feelings often left unspoken.
-            </p>
-            <p className="text-gray-700 dark:text-gray-300 mb-6 text-base leading-relaxed text-left">
-              As a web developer, I craft meaningful, intuitive digital
-              experiences, believing that every line of code can tell a story.
-              Both poetry and development are about connection — between people,
-              ideas, and technology.
-            </p>
-            <p className="text-gray-700 dark:text-gray-300 text-base leading-relaxed text-left">
-              My journey has taught me to embrace contrasts: the precision of
-              code and the fluidity of verse, structure and spontaneity. These
-              paths are part of the same creative energy that drives me to
-              explore, express, and create.
-            </p>
+           <p className="text-gray-700 dark:text-gray-300 mb-6 text-base leading-relaxed text-left">
+  I'm Smriti Jha — a poet at heart, a software engineer by profession, and a web developer by passion. Through poetry, I explore emotions, love, loss, and everything in between, giving voice to feelings often left unspoken.
+</p>
+<p className="text-gray-700 dark:text-gray-300 mb-6 text-base leading-relaxed text-left">
+  In my work as a web developer, I craft meaningful, intuitive digital experiences, believing that every line of code has the power to tell a story. For me, both poetry and development are about connection — between people, ideas, and technology.
+</p>
+<p className="text-gray-700 dark:text-gray-300 text-base leading-relaxed text-left">
+  My journey has taught me to embrace contrasts: the precision of code and the fluidity of verse, structure and spontaneity. These seemingly different paths stem from the same creative energy that drives me to explore, express, and create.
+</p>
+
             <Link href="/otherstuffs/about" passHref>
               <button className="mt-6 text-white bg-[#C1440E] hover:bg-[#a6370d] focus:outline-none focus:ring-2 focus:ring-amber-500 rounded-full py-3 px-6 transition duration-300">
                 Know More

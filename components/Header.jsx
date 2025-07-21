@@ -315,7 +315,7 @@ const Header = () => {
               <>
                 <button
                   onClick={() => {
-                    router.push("/loginstuff/dashboardpage");
+                    router.push("/loginstuff/dashboardpage/userprofile");
                     setMobileMenuOpen(false);
                   }}
                   className="w-full py-2 bg-green-700 text-white rounded text-sm"

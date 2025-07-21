@@ -38,10 +38,6 @@ const AboutPage = () => {
             </h1>
           </div>
 
-          <p className="text-2xl md:text-3xl font-serif font-medium text-gray-900 mb-6">
-            is a poet, developer, and performer.
-          </p>
-
           {/* About Content */}
           <p className="text-lg leading-relaxed mb-4">
             A curious mind in the world of code, and a tender heart in the world

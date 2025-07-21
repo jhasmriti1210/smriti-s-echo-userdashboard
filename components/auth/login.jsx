@@ -148,10 +148,10 @@ const Auth = () => {
       <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md mt-32">
         {/* Logo */}
         <div className="flex justify-center mb-6">
-          <img src="/logo.png" alt="Logo" className="h-32" />
+          <img src="/namesmall.png" alt="Logo" className="h-20" />
         </div>
 
-        <h2 className="text-2xl font-bold mb-6 text-center text-green-800">
+        <h2 className="text-xl font-bold mb-6 text-center text-green-800">
           {isLogin ? "Login to your Account" : "Create an Account"}
         </h2>
 

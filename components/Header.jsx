@@ -158,15 +158,8 @@ const Header = () => {
               <div className="px-4 py-2 text-center">
                 <button
                   onClick={() => {
-                    if (typeof window !== "undefined") {
-                      const isSmallScreen = window.innerWidth < 768; // Tailwind's md breakpoint is 768px
-                      if (isSmallScreen) {
-                        router.push("/loginstuff/dashboardpage/userprofile");
-                      } else {
-                        router.push("/loginstuff/dashboardpage");
-                      }
-                      setDropdownOpen(false);
-                    }
+                    router.push("/loginstuff/dashboardpage/userprofile");
+                    setDropdownOpen(false);
                   }}
                   className="w-full text-sm bg-green-700 text-white py-2 rounded hover:bg-green-800"
                 >

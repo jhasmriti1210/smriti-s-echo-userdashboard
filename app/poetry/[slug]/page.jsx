@@ -10,12 +10,28 @@ import CommentSection from "@/components/news/Comment";
 import AudioSection from "@/components/audioSection";
 import { toast } from "react-hot-toast";
 
+// Share imports
+import {
+  WhatsappShareButton,
+  TwitterShareButton,
+  LinkedinShareButton,
+  FacebookShareButton,
+  WhatsappIcon,
+  TwitterIcon,
+  LinkedinIcon,
+  FacebookIcon,
+} from "react-share";
+
+import { FaRegCopy } from "react-icons/fa";
+import { FaShare } from "react-icons/fa";
+
 const Details = () => {
   const { slug } = useParams();
   const [poetry, setPoetry] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isFavorited, setIsFavorited] = useState(false);
   const [confirmRemove, setConfirmRemove] = useState(false);
+  const [showShareOptions, setShowShareOptions] = useState(false);
 
   const fetchPoetryData = async () => {
     try {
@@ -93,6 +109,8 @@ const Details = () => {
       </div>
     );
 
+  const shareUrl = typeof window !== "undefined" ? window.location.href : "";
+
   return (
     <div className="mt-20">
       {/* Breadcrumb */}
@@ -109,6 +127,54 @@ const Details = () => {
             {/* Main Section */}
             <article className="xl:col-span-2">
               <div className="bg-white rounded-xl p-6 shadow-md">
+                {/* Share Button */}
+                <div className="flex justify-end relative mb-2">
+                  <button
+                    onClick={() => setShowShareOptions(!showShareOptions)}
+                    className="flex items-center gap-1 text-sm text-green-600 hover:underline hover:text-green-800 transition"
+                  >
+                    <FaShare className="text-2xl" />
+                    Share
+                  </button>
+
+                  {/* Share Panel */}
+                  {showShareOptions && (
+                    <div className="absolute top-8 right-0 z-50 bg-white border shadow-lg p-4 rounded-lg grid grid-cols-3 gap-3">
+                      <WhatsappShareButton url={shareUrl}>
+                        <WhatsappIcon size={32} round />
+                      </WhatsappShareButton>
+
+                      <TwitterShareButton url={shareUrl}>
+                        <TwitterIcon size={32} round />
+                      </TwitterShareButton>
+
+                      <LinkedinShareButton url={shareUrl}>
+                        <LinkedinIcon size={32} round />
+                      </LinkedinShareButton>
+
+                      <FacebookShareButton url={shareUrl}>
+                        <FacebookIcon size={32} round />
+                      </FacebookShareButton>
+
+                      <button
+                        onClick={async () => {
+                          try {
+                            await navigator.clipboard.writeText(shareUrl);
+                            toast.success("✅ Link copied!");
+                          } catch {
+                            toast.error("❌ Failed to copy link.");
+                          }
+                        }}
+                        className="flex items-center justify-center"
+                      >
+                        <div className="bg-gray-200 hover:bg-gray-300 rounded-full p-1">
+                          <FaRegCopy className="text-md text-gray-700" />
+                        </div>
+                      </button>
+                    </div>
+                  )}
+                </div>
+
                 <div className="flex flex-col items-center text-center gap-4">
                   <img
                     src={poetry.image}

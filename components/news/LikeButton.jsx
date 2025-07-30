@@ -6,39 +6,49 @@ import { base_api_url } from "@/config/Config";
 import { toast } from "react-hot-toast";
 
 const LikeButton = ({ poetryId, initialLikesCount, isInitiallyLiked }) => {
+  // Get initial like status from localStorage
+  const storedLikeStatus = localStorage.getItem(`poem-${poetryId}-liked`);
+  const initialLikeState = storedLikeStatus
+    ? storedLikeStatus === "true"
+    : isInitiallyLiked || false;
+
   const [likesCount, setLikesCount] = useState(initialLikesCount || 0);
-  const [isLiked, setIsLiked] = useState(isInitiallyLiked || false);
+  const [isLiked, setIsLiked] = useState(initialLikeState);
   const [loading, setLoading] = useState(false);
   const [initialized, setInitialized] = useState(false);
 
   // Check like status from server on mount
   useEffect(() => {
     const checkLikeStatus = async () => {
-      const token = localStorage.getItem("authToken");
-      const userId = localStorage.getItem("userId");
-      if (!token || !userId) {
-        setIsLiked(false);
-        setInitialized(true);
-        return;
-      }
-
       try {
+        const token = localStorage.getItem("authToken");
+        const userId = localStorage.getItem("userId");
+
+        if (!token || !userId) {
+          setInitialized(true);
+          return;
+        }
+
         const res = await fetch(`${base_api_url}/api/check-like/${poetryId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
+
         if (res.ok) {
           const data = await res.json();
           setIsLiked(data.isLiked);
+          localStorage.setItem(
+            `poem-${poetryId}-liked`,
+            data.isLiked.toString()
+          );
+
           if (data.likesCount !== undefined) {
             setLikesCount(data.likesCount);
           }
         }
       } catch (error) {
         console.error("Error checking like status:", error);
-        // Fallback to props if server check fails
-        setIsLiked(isInitiallyLiked || false);
       } finally {
         setInitialized(true);
       }
@@ -80,6 +90,9 @@ const LikeButton = ({ poetryId, initialLikesCount, isInitiallyLiked }) => {
       const data = await res.json();
       setIsLiked(data.isLiked);
       setLikesCount(data.likesCount);
+
+      // Store like status in localStorage
+      localStorage.setItem(`poem-${poetryId}-liked`, data.isLiked.toString());
 
       // Show success message
       toast.success(data.isLiked ? "Added to likes" : "Removed from likes");

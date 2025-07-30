@@ -10,6 +10,8 @@ import CommentSection from "@/components/news/Comment";
 import AudioSection from "@/components/audioSection";
 import { toast } from "react-hot-toast";
 
+import LikeButton from "@/components/news/LikeButton";
+
 // Share imports
 import {
   WhatsappShareButton,
@@ -160,9 +162,9 @@ const Details = () => {
                         onClick={async () => {
                           try {
                             await navigator.clipboard.writeText(shareUrl);
-                            toast.success("✅ Link copied!");
+                            toast.success("Link copied to clipboard!");
                           } catch {
-                            toast.error("❌ Failed to copy link.");
+                            toast.error("Failed to copy link.");
                           }
                         }}
                         className="flex items-center justify-center"
@@ -253,6 +255,16 @@ const Details = () => {
                     poetryId={poetry._id}
                     initialComments={poetry.comments || []}
                   />
+                  {/* Like Button */}
+                  <div className="mt-4">
+                    <LikeButton
+                      poetryId={poetry._id}
+                      initialLikesCount={poetry.likesCount}
+                      isInitiallyLiked={poetry.likes?.some(
+                        (like) => like.userId === localStorage.getItem("userId")
+                      )}
+                    />
+                  </div>
                 </div>
               </div>
             </aside>

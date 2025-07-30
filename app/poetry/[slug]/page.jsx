@@ -37,11 +37,21 @@ const Details = () => {
 
   const fetchPoetryData = async () => {
     try {
-      const res = await fetch(`${base_api_url}/api/poetry/details/${slug}`);
+      const token = localStorage.getItem("authToken");
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+      const res = await fetch(`${base_api_url}/api/poetry/details/${slug}`, {
+        headers: headers,
+      });
       if (!res.ok) throw new Error("Failed to fetch poetry data");
       const data = await res.json();
-      setPoetry(data.poetry);
-      setIsFavorited(Boolean(data.poetry?.isFavorited));
+
+      // Ensure we update both the poetry object and the favorite state
+      const newPoetry = data.poetry;
+      const isFav = Boolean(newPoetry?.isFavorited);
+
+      setPoetry(newPoetry);
+      setIsFavorited(isFav);
       setConfirmRemove(false);
     } catch (error) {
       console.error("Error fetching poetry details:", error);
@@ -67,7 +77,12 @@ const Details = () => {
 
     if (loading) return;
 
-    if (isFavorited && !confirmRemove) {
+    // Reset confirm state if user is adding to favorites
+    if (!isFavorited) {
+      setConfirmRemove(false);
+    }
+    // Show confirm dialog when removing from favorites
+    else if (isFavorited && !confirmRemove) {
       setConfirmRemove(true);
       return;
     }
@@ -82,17 +97,30 @@ const Details = () => {
         },
       });
 
+      if (!res.ok) {
+        throw new Error("Failed to update favorite status");
+      }
+
       const data = await res.json();
 
       if (typeof data.isFavorited === "boolean") {
-        setIsFavorited(data.isFavorited);
+        // Update both states immediately
+        const newFavoriteStatus = data.isFavorited;
+        setIsFavorited(newFavoriteStatus);
         setConfirmRemove(false);
+
+        // Update the poetry object with the new favorite status
+        setPoetry((prev) => ({
+          ...prev,
+          isFavorited: newFavoriteStatus,
+        }));
+
+        // Show success message
         toast.success(
-          data.isFavorited
+          newFavoriteStatus
             ? `"${poetry.title}" added to favorites`
             : `"${poetry.title}" removed from favorites`
         );
-        fetchPoetryData();
       } else {
         toast.error("Unexpected response from server.");
       }
@@ -192,6 +220,16 @@ const Details = () => {
                   <p className="text-sm text-slate-500">
                     {poetry.date} &bull; {poetry.writerName}
                   </p>
+                  {/* Like Button */}
+                  <div className="mt-4">
+                    <LikeButton
+                      poetryId={poetry._id}
+                      initialLikesCount={poetry.likesCount}
+                      isInitiallyLiked={poetry.likes?.some(
+                        (like) => like.userId === localStorage.getItem("userId")
+                      )}
+                    />
+                  </div>
 
                   {/* Favorite Button */}
                   <button
@@ -255,16 +293,6 @@ const Details = () => {
                     poetryId={poetry._id}
                     initialComments={poetry.comments || []}
                   />
-                  {/* Like Button */}
-                  <div className="mt-4">
-                    <LikeButton
-                      poetryId={poetry._id}
-                      initialLikesCount={poetry.likesCount}
-                      isInitiallyLiked={poetry.likes?.some(
-                        (like) => like.userId === localStorage.getItem("userId")
-                      )}
-                    />
-                  </div>
                 </div>
               </div>
             </aside>

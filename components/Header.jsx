@@ -304,7 +304,7 @@ const Header = () => {
             >
               <FaLinkedin />
             </Link>
-            <Link href="https://www.twitter.com/@erin_nerte" target="_blank">
+            <Link href="https://instagram.com/erin.nerte_p" target="_blank">
               <FaTwitter />
             </Link>
           </div>

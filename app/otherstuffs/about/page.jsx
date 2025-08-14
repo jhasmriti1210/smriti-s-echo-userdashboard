@@ -96,7 +96,7 @@ const AboutPage = () => {
           {/* Social Icons */}
           <div className="flex justify-start gap-6 mt-10 text-2xl">
             <a
-              href="https://instagram.com/erin.nerte_p"
+              href="https://instagram.com/sjhapoetry"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-600 hover:text-pink-600"

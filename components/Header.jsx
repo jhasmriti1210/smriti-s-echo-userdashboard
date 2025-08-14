@@ -292,7 +292,7 @@ const Header = () => {
           </div>
           {/* Social Icons */}
           <div className="flex justify-center gap-6 pt-4 text-xl text-black border-t border-gray-200">
-            <Link href="https://instagram.com/erin.nerte" target="_blank">
+            <Link href="https://instagram.com/sjhapoetry" target="_blank">
               <FaInstagram />
             </Link>
             <Link href="https://www.youtube.com/@sjhapoetry" target="_blank">
